@@ -3,8 +3,6 @@ add|ember-template-lint|no-at-ember-render-modifiers|2|2|2|2|ad17d66e0fe1720bc8d
 add|ember-template-lint|no-at-ember-render-modifiers|3|2|3|2|d39abab22a3e75d93f69335da422e7ef73b36283|1731542400000|1762646400000|1793750400000|addon/components/html-editor.hbs
 add|ember-template-lint|no-at-ember-render-modifiers|3|2|3|2|6bbbcafd85d75fd8f3d70c2bd4ba01d753c24f9c|1731542400000|1762646400000|1793750400000|addon/components/offering-calendar.hbs
 add|ember-template-lint|no-at-ember-render-modifiers|4|2|4|2|0a8f8f3c4ad64455e02a7594b39cb2785441d6e8|1731542400000|1762646400000|1793750400000|addon/components/offering-calendar.hbs
-add|ember-template-lint|no-at-ember-render-modifiers|4|2|4|2|fab53a12bc25481f88028a380c2d467d682eee45|1731542400000|1762646400000|1793750400000|addon/components/offering-form.hbs
-add|ember-template-lint|no-at-ember-render-modifiers|5|2|5|2|d6e466b5b7ca03528b0882253d26794d3a9aa6ca|1731542400000|1762646400000|1793750400000|addon/components/offering-form.hbs
 add|ember-template-lint|no-at-ember-render-modifiers|26|14|26|14|e5d8b6826e05b980dca30d848c35171b24960c39|1731542400000|1762646400000|1793750400000|addon/components/offering-manager.hbs
 add|ember-template-lint|no-at-ember-render-modifiers|3|2|3|2|1fb6f249958ee245e6abc413681c9fe096120cef|1731542400000|1762646400000|1793750400000|addon/components/session-copy.hbs
 add|ember-template-lint|no-at-ember-render-modifiers|4|2|4|2|856162ce473b112534763bb641aae7a4422d8e2e|1731542400000|1762646400000|1793750400000|addon/components/session-copy.hbs
@@ -16,5 +14,3 @@ add|ember-template-lint|no-at-ember-render-modifiers|4|2|4|2|2bbf15957242a9a3c1e
 add|ember-template-lint|no-at-ember-render-modifiers|5|2|5|2|167e8d9ede488c7f199cb748e81bc09b97617e71|1731542400000|1762646400000|1793750400000|addon/components/course/rollover-date-picker.hbs
 add|ember-template-lint|no-at-ember-render-modifiers|3|2|3|2|1009d3843f6aed52099f0e7fbd4eebb52bc176e5|1731542400000|1762646400000|1793750400000|addon/components/course/rollover.hbs
 add|ember-template-lint|no-at-ember-render-modifiers|4|2|4|2|84076f8cf85c554eaf0d9fdec26154bae5bceeb2|1731542400000|1762646400000|1793750400000|addon/components/course/rollover.hbs
-add|ember-template-lint|no-at-ember-render-modifiers|4|2|4|2|23cd787c79c34a628dadb6e96dd4004d42eebb79|1731542400000|1762646400000|1793750400000|addon/components/course/visualize-session-type.hbs
-remove|ember-template-lint|no-at-ember-render-modifiers|4|2|4|2|23cd787c79c34a628dadb6e96dd4004d42eebb79|1731542400000|1762646400000|1793750400000|addon/components/course/visualize-session-type.hbs
