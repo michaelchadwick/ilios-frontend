@@ -5,6 +5,7 @@ import { TrackedAsyncData } from 'ember-async-data';
 import { LinkTo } from '@ember/routing';
 import t from 'ember-intl/helpers/t';
 import { array, concat } from '@ember/helper';
+import { pageTitle } from 'ember-page-title';
 import add from 'ember-math-helpers/helpers/add';
 import VisualizeTermGraph from 'ilios-common/components/course/visualize-term-graph';
 
@@ -24,6 +25,20 @@ export default class CourseVisualizeTermComponent extends Component {
       : false;
   }
   <template>
+    {{pageTitle
+      (t "general.courses")
+      " | "
+      @model.course.title
+      " | "
+      (t "general.visualizations")
+      " | "
+      (t "general.vocabularies")
+      " | "
+      @model.term.vocabulary.title
+      " | "
+      @model.term.title
+    }}
+
     <section class="course-visualize-term data-visualization" data-test-course-visualize-term>
       {{#if this.academicYearCrossesCalendarYearBoundariesData.isResolved}}
         <div class="breadcrumbs" data-test-breadcrumb>
