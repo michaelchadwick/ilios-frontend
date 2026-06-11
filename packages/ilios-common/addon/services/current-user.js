@@ -2,7 +2,7 @@ import { isEmpty } from '@ember/utils';
 import { get } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { DateTime } from 'luxon';
-import jwtDecode from 'ilios-common/utils/jwt-decode';
+import { jwtDecode } from 'ilios-common/utils/jwt-utils';
 import { uniqueValues } from 'ilios-common/utils/array-helpers';
 
 export default class CurrentUserService extends Service {
