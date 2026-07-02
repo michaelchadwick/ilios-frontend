@@ -3,6 +3,7 @@ import { module, test } from 'qunit';
 import { setupAuthentication, freezeDateAt, unfreezeDate } from 'ilios-common';
 import { setupApplicationTest } from 'frontend/tests/helpers';
 import { DateTime } from 'luxon';
+import { graphQL } from 'frontend/tests/helpers/curriculum-report';
 
 module('Acceptance | performance', function (hooks) {
   setupApplicationTest(hooks);
@@ -217,6 +218,14 @@ module('Acceptance | performance', function (hooks) {
   });
 
   test('/reports/curriculum', async function (assert) {
+    this.getCourseCompetenciesResponse = (assert) => {
+      return () => {
+        const courses = this.server.db.course.all().map((c) => graphQL.buildCourse(c));
+        assert.step('API called');
+        return { data: { courses } };
+      };
+    };
+    this.server.post('/api/graphql', this.getCourseCompetenciesResponse(assert));
     await this.server.create('academic-year');
     this.sessionTypes = await this.server.createList('session-type', 1, {
       school: this.school,
@@ -245,6 +254,7 @@ module('Acceptance | performance', function (hooks) {
 
     assert.strictEqual(currentRouteName(), 'reports.curriculum', 'current route name is correct');
     assert.ok(duration < this.maxDuration, `route loaded in allowable time: ${duration}ms`);
+    assert.verifySteps(['API called']);
   });
 
   test('/reports/subjects', async function (assert) {
