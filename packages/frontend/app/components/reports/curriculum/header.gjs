@@ -243,9 +243,11 @@ export default class ReportsCurriculumHeaderComponent extends Component {
         {{/if}}
       </div>
       <div class="run">
-        <p data-test-run-summary>
+        <p>
           <label data-test-report-selector>
-            {{t "general.selectCurriculumReportType"}}:
+            <span data-test-report-selector-label>
+              {{t "general.selectCurriculumReportType"}}:
+            </span>
             <select {{on "change" this.changeSelectedReport}}>
               <option selected={{isEmpty this.selectedReport}} value>
                 {{t "general.selectPolite"}}
@@ -260,17 +262,21 @@ export default class ReportsCurriculumHeaderComponent extends Component {
               {{/each}}
             </select>
           </label>
-          {{#if this.selectedReport}}
-            {{#if @countSelectedCourses}}
-              <p>
-                {{t "general.run"}}
-                {{this.selectedReport.label}}
-                {{this.selectedReport.summary}}
-              </p>
-            {{else}}
-              <p>{{t "general.selectCoursesToRunReport"}}</p>
+          <div data-test-run-summary>
+            {{#if this.selectedReport}}
+              {{#if @countSelectedCourses}}
+                <div data-test-selected-report-label-summary>
+                  {{t "general.run"}}
+                  {{this.selectedReport.label}}
+                  {{this.selectedReport.summary}}
+                </div>
+              {{else}}
+                <div data-test-selected-report-label-summary>
+                  {{t "general.selectCoursesToRunReport"}}
+                </div>
+              {{/if}}
             {{/if}}
-          {{/if}}
+          </div>
         </p>
       </div>
     </div>

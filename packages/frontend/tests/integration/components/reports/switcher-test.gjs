@@ -10,9 +10,9 @@ module('Integration | Component | reports/switcher', function (hooks) {
 
   test('it renders and is accessible', async function (assert) {
     await render(<template><Switcher /></template>);
-    assert.strictEqual(component.text, 'Subject Reports Curriculum Reports');
-    assert.strictEqual(component.subject.text, 'Subject Reports');
+    assert.strictEqual(component.text, 'Curriculum Reports Subject Reports');
     assert.strictEqual(component.curriculum.text, 'Curriculum Reports');
+    assert.strictEqual(component.subject.text, 'Subject Reports');
     assert.notOk(component.subject.isActive);
     assert.notOk(component.curriculum.isActive);
 
