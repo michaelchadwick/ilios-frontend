@@ -27,7 +27,7 @@ module('Integration | Component | reports/curriculum', function (hooks) {
     });
   });
 
-  test('it renders and is accessible with no courses selected', async function (assert) {
+  test('it renders and is accessible with no report type or courses selected', async function (assert) {
     this.set('schools', buildSchoolsFromData(this.server.db));
     await render(
       <template>
@@ -43,11 +43,39 @@ module('Integration | Component | reports/curriculum', function (hooks) {
         />
       </template>,
     );
-    assert.notOk(component.header.reportSelector.isPresent, 'report selector is present');
+    assert.ok(component.header.reportSelector.isPresent, 'report selector is present');
+    assert.ok(component.header.reportSelector.text, '(please select one)');
     assert.strictEqual(
       component.header.runSummaryText,
-      'Select Courses to Run Report',
+      'Select Curriculum Report Type: ',
       'report header text correct',
+    );
+
+    await a11yAudit(this.element);
+    assert.ok(true, 'no a11y errors found!');
+  });
+
+  test('it renders and is accessible with report type selected', async function (assert) {
+    this.set('schools', buildSchoolsFromData(this.server.db));
+    await render(
+      <template>
+        <Curriculum
+          @selectedCourseIds={{array "1"}}
+          @setSelectedCourseIds={{(noop)}}
+          @report="sessionObjectives"
+          @setReport={{(noop)}}
+          @schools={{this.schools}}
+          @run={{(noop)}}
+          @stop={{(noop)}}
+          @showReportResults={{false}}
+        />
+      </template>,
+    );
+    assert.ok(component.header.reportSelector.isPresent, 'report selector is present');
+    assert.ok(
+      component.header.runSummaryText.includes(
+        'Each session objective is listed along with instructors and course data.',
+      ),
     );
 
     await a11yAudit(this.element);
@@ -70,7 +98,7 @@ module('Integration | Component | reports/curriculum', function (hooks) {
         />
       </template>,
     );
-    assert.ok(component.header.reportSelector.isPresent);
+    assert.ok(component.header.reportSelector.isPresent, 'report selector is present');
     assert.ok(
       component.header.runSummaryText.includes(
         'Each session objective is listed along with instructors and course data.',
@@ -178,29 +206,5 @@ module('Integration | Component | reports/curriculum', function (hooks) {
     );
     await component.chooseCourse.years[0].courses[1].pick();
     assert.verifySteps(['setSelectedCourseIds called']);
-  });
-
-  test('set report works', async function (assert) {
-    this.set('schools', buildSchoolsFromData(this.server.db));
-    this.set('setReport', (report) => {
-      assert.step('setReport called');
-      assert.strictEqual(report, 'learnerGroups');
-    });
-    await render(
-      <template>
-        <Curriculum
-          @selectedCourseIds={{array "1"}}
-          @setSelectedCourseIds={{(noop)}}
-          @report="sessionObjectives"
-          @setReport={{this.setReport}}
-          @schools={{this.schools}}
-          @run={{(noop)}}
-          @stop={{(noop)}}
-          @showReportResults={{false}}
-        />
-      </template>,
-    );
-    await component.header.reportSelector.set('learnerGroups');
-    assert.verifySteps(['setReport called']);
   });
 });
