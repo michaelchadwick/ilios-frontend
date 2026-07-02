@@ -5,6 +5,7 @@ const definition = {
   runSummaryText: text('[data-test-run-summary]'),
   reportSelector: {
     scope: '[data-test-report-selector]',
+    label: text('[data-test-report-selector-label]'),
     set: fillable('select'),
     options: collection('option', {
       isSelected: property('selected'),
