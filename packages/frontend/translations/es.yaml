@@ -365,6 +365,7 @@ general:
   selectAcademicYear: Selecciona Año Academico
   selectAllOrNone: Seleccione Todo o Ninguno
   selectCoursesToRunReport: Seleccionar cursos para ejecutar el informe
+  selectCurriculumReportType: Seleccionar tipo de informe curricular
   selectPolite: (seleccione uno, por favor)
   selectUser: Seleccione usuario
   sequenceBlock: Bloque de Secuencia

@@ -15,6 +15,10 @@
   .run {
     @include cm.font-size("medium");
     min-height: 2rem;
+
+    p {
+      margin: 0;
+    }
   }
 
   .input-buttons {

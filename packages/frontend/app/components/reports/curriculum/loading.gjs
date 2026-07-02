@@ -42,7 +42,7 @@ export default class ReportsCurriculumLoadingComponent extends Component {
   }
 
   get selectedReportValue() {
-    return this.queryParams?.report ?? 'sessionObjectives';
+    return this.queryParams?.report ?? null;
   }
   <template>
     <div
