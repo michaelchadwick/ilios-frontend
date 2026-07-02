@@ -365,6 +365,7 @@ general:
   selectAcademicYear: Select Academic Year
   selectAllOrNone: Select All or None
   selectCoursesToRunReport: Select Courses to Run Report
+  selectCurriculumReportType: Select Curriculum Report Type
   selectPolite: (please select one)
   selectUser: Select User
   sequenceBlock: Sequence Block

@@ -365,6 +365,7 @@ general:
   selectAcademicYear: Choisissez l’année scolaire
   selectAllOrNone: Sélectionner tout ou aucun
   selectCoursesToRunReport: Select des cours d'éxecuter rapport
+  selectCurriculumReportType: Select le type du rapport des programmes d'études
   selectPolite: (veuillez en sélectionner un)
   selectUser: "Choisi l'utilisateur"
   sequenceBlock: Bloc séquence

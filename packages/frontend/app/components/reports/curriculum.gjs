@@ -39,7 +39,7 @@ export default class ReportsCurriculumComponent extends Component {
   }
 
   get selectedReportValue() {
-    return this.args.report ?? 'courseCompetencies';
+    return this.args.report ?? null;
   }
 
   @cached
