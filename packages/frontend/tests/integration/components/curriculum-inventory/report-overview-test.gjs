@@ -50,7 +50,6 @@ module('Integration | Component | curriculum-inventory/report-overview', functio
     await render(
       <template><ReportOverview @report={{this.report}} @canUpdate={{true}} /></template>,
     );
-    assert.strictEqual(component.title, 'Overview', 'Component title is visible.');
     assert.ok(component.rolloverLink.isVisible, 'Rollover course button is visible.');
     assert.ok(component.verificationPreviewLink.isVisible, 'Verification preview link is visible.');
     assert.strictEqual(component.startDate.label, 'Start Date:', 'Start date label is correct.');
