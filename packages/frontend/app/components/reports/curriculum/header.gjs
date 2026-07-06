@@ -4,7 +4,7 @@ import { service } from '@ember/service';
 import { guidFor } from '@ember/object/internals';
 import t from 'ember-intl/helpers/t';
 import { on } from '@ember/modifier';
-import { eq, not, and, or } from 'ember-truth-helpers';
+import { eq, not, and } from 'ember-truth-helpers';
 import isEmpty from 'ember-truth-helpers/helpers/is-empty';
 import sortBy from 'ilios-common/helpers/sort-by';
 import CopyButton from 'ilios-common/components/copy-button';
@@ -223,7 +223,7 @@ export default class ReportsCurriculumHeaderComponent extends Component {
             type="button"
             class="done text"
             {{on "click" @runReport}}
-            disabled={{or (not @countSelectedCourses) (not this.selectedReport)}}
+            disabled={{not (and @countSelectedCourses this.selectedReport)}}
             id={{this.runButtonId}}
             {{mouseHoverToggle (set this "showRunTooltip")}}
             data-test-run
