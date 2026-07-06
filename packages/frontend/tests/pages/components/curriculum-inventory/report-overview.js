@@ -12,7 +12,6 @@ import { flatpickrDatePicker } from 'ilios-common';
 
 const definition = {
   scope: '[data-test-curriculum-inventory-report-overview]',
-  title: text('[data-test-title]'),
   verificationPreviewLink: {
     scope: '[data-test-transition-to-verification-preview]',
   },

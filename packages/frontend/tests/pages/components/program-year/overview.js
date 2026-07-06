@@ -1,8 +1,7 @@
-import { attribute, create, text } from 'ember-cli-page-object';
+import { attribute, create } from 'ember-cli-page-object';
 
 const definition = {
   scope: '[data-test-program-year-overview]',
-  title: text('[data-test-title]'),
   actions: {
     scope: '[data-test-actions]',
     visualizations: {

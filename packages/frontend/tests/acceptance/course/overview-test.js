@@ -108,15 +108,15 @@ module('Acceptance | Course - Overview', function (hooks) {
         .lookup('service:store')
         .findRecord('course', this.course.id);
       await page.visit({ courseId: courseModel.id });
-      assert.strictEqual(page.details.titles, 2);
+      assert.strictEqual(page.details.titles, 1);
       assert.strictEqual(currentURL(), '/courses/1');
       await page.details.collapseControl();
       await takeScreenshot(assert, '/courses/1');
-      assert.ok(page.details.titles > 2);
+      assert.ok(page.details.titles > 1);
       assert.strictEqual(currentURL(), '/courses/1?details=true');
       await page.details.collapseControl();
       await takeScreenshot(assert, '/courses/1?details=true');
-      assert.strictEqual(page.details.titles, 2);
+      assert.strictEqual(page.details.titles, 1);
       assert.strictEqual(currentURL(), '/courses/1');
     });
   });

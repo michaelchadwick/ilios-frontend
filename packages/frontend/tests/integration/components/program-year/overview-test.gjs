@@ -18,7 +18,6 @@ module('Integration | Component | program-year/overview', function (hooks) {
       .findRecord('program-year', programYear.id);
     this.set('program', programYearModel);
     await render(<template><Overview @programYear={{this.programYear}} /></template>);
-    assert.strictEqual(component.title, 'Overview');
     assert.ok(component.actions.visualizations.isPresent);
     await a11yAudit(this.element);
     assert.ok(true, 'no a11y errors found!');
