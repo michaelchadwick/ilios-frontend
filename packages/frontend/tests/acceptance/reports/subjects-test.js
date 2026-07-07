@@ -1,4 +1,4 @@
-import { currentRouteName, currentURL } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupAuthentication } from 'ilios-common';
 import page from 'frontend/tests/pages/reports';
@@ -63,16 +63,8 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
     });
   });
 
-  test('visiting /reports ends up at subjects', async function (assert) {
-    await page.visit();
-    assert.strictEqual(currentRouteName(), 'reports.subjects');
-    assert.ok(page.switcher.subject.isActive);
-    assert.notOk(page.switcher.curriculum.isActive);
-    assert.ok(page.subjects.isPresent);
-  });
-
   test('shows reports', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     await takeScreenshot(assert);
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.strictEqual(
@@ -83,7 +75,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('create new report', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2, 'report count is correct');
     assert.strictEqual(
       page.subjects.list.table.reports[0].title,
@@ -185,7 +177,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('create new report with empty title', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.ok(page.subjects.list.newReportLinkIsHidden);
     await page.subjects.list.toggleNewSubjectReportForm();
@@ -199,7 +191,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('filter session by year in new report form', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.strictEqual(
       page.subjects.list.table.reports[0].title,
@@ -254,7 +246,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('get all courses associated with mesh term #3419', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.strictEqual(
       page.subjects.list.table.reports[0].title,
@@ -333,7 +325,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('Prepositional object resets when a new type is selected', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.strictEqual(
       page.subjects.list.table.reports[0].title,
@@ -362,7 +354,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('course external id in report', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2, 'report list count correct');
     assert.strictEqual(
       page.subjects.list.table.reports[0].title,
@@ -433,7 +425,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('delete report', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.strictEqual(
       page.subjects.list.table.reports[0].title,
@@ -447,7 +439,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('run subject report', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     await page.subjects.list.toggleNewSubjectReportForm();
     await page.subjects.list.newSubject.schools.choose('1');
     await page.subjects.list.newSubject.subjects.choose('session');
@@ -496,7 +488,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('reset year when subject report is run', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     await page.subjects.list.toggleNewSubjectReportForm();
     await page.subjects.list.newSubject.schools.choose('1');
     await page.subjects.list.newSubject.subjects.choose('course');
@@ -559,7 +551,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('remove report title', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     this.server.post('/api/graphql', () => {
       assert.step('API called');
       //send wrong data back, who cares
@@ -579,7 +571,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
       subjectReportPage.report.title.text,
       'All Sessions for Course course 0 (2015) in school 0',
     );
-    await page.visit();
+    await page.visitSubjectReports();
 
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.strictEqual(
@@ -595,7 +587,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
 
   test('create new report for instructors by academic year #3594', async function (assert) {
     await this.server.createList('user', 3);
-    await page.visit();
+    await page.visitSubjectReports();
     assert.strictEqual(page.subjects.list.table.reports.length, 2);
     assert.ok(page.subjects.list.newReportLinkIsHidden);
     await page.subjects.list.toggleNewSubjectReportForm();
@@ -659,7 +651,7 @@ module('Acceptance | Reports - Subject Reports', function (hooks) {
   });
 
   test('courses by academic year hides year', async function (assert) {
-    await page.visit();
+    await page.visitSubjectReports();
     await page.subjects.list.toggleNewSubjectReportForm();
     await page.subjects.list.newSubject.schools.choose('');
     await page.subjects.list.newSubject.subjects.choose('course');

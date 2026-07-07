@@ -4,7 +4,8 @@ import { service } from '@ember/service';
 import { guidFor } from '@ember/object/internals';
 import t from 'ember-intl/helpers/t';
 import { on } from '@ember/modifier';
-import { eq, not } from 'ember-truth-helpers';
+import { eq, not, and } from 'ember-truth-helpers';
+import isEmpty from 'ember-truth-helpers/helpers/is-empty';
 import sortBy from 'ilios-common/helpers/sort-by';
 import CopyButton from 'ilios-common/components/copy-button';
 import perform from 'ember-concurrency/helpers/perform';
@@ -173,35 +174,8 @@ export default class ReportsCurriculumHeaderComponent extends Component {
   };
   <template>
     <div class="reports-curriculum-header" data-test-reports-curriculum-header>
-      <div class="run">
-        <p data-test-run-summary>
-          {{#if @countSelectedCourses}}
-            {{#if @showReportResults}}
-              {{t "general.run"}}
-              {{this.selectedReport.label}}
-            {{else}}
-              <label data-test-report-selector>
-                {{t "general.run"}}
-                <select {{on "change" this.changeSelectedReport}}>
-                  {{#each (sortBy "label" this.reportList) as |report|}}
-                    <option
-                      value={{report.value}}
-                      selected={{eq report.value this.selectedReport.value}}
-                    >
-                      {{report.label}}
-                    </option>
-                  {{/each}}
-                </select>
-              </label>
-            {{/if}}
-            {{this.selectedReport.summary}}
-          {{else}}
-            {{t "general.selectCoursesToRunReport"}}
-          {{/if}}
-        </p>
-      </div>
       <div class="input-buttons">
-        {{#if @countSelectedCourses}}
+        {{#if (and @countSelectedCourses this.selectedReport)}}
           <CopyButton
             @getClipboardText={{this.getReportUrl}}
             @success={{perform this.textCopied}}
@@ -249,7 +223,7 @@ export default class ReportsCurriculumHeaderComponent extends Component {
             type="button"
             class="done text"
             {{on "click" @runReport}}
-            disabled={{not @countSelectedCourses}}
+            disabled={{not (and @countSelectedCourses this.selectedReport)}}
             id={{this.runButtonId}}
             {{mouseHoverToggle (set this "showRunTooltip")}}
             data-test-run
@@ -267,6 +241,45 @@ export default class ReportsCurriculumHeaderComponent extends Component {
             </IliosTooltip>
           {{/if}}
         {{/if}}
+      </div>
+      <div class="run">
+        <p>
+          {{#unless @showReportResults}}
+            <label data-test-report-selector>
+              <span data-test-report-selector-label>
+                {{t "general.selectCurriculumReportType"}}:
+              </span>
+              <select {{on "change" this.changeSelectedReport}}>
+                <option selected={{isEmpty this.selectedReport}} value>
+                  {{t "general.selectPolite"}}
+                </option>
+                {{#each (sortBy "label" this.reportList) as |report|}}
+                  <option
+                    value={{report.value}}
+                    selected={{eq report.value this.selectedReport.value}}
+                  >
+                    {{report.label}}
+                  </option>
+                {{/each}}
+              </select>
+            </label>
+          {{/unless}}
+          <div data-test-run-summary>
+            {{#if this.selectedReport}}
+              {{#if @countSelectedCourses}}
+                <div data-test-selected-report-label-summary>
+                  {{t "general.run"}}
+                  {{this.selectedReport.label}}
+                  {{this.selectedReport.summary}}
+                </div>
+              {{else}}
+                <div data-test-selected-report-label-summary>
+                  {{t "general.selectCoursesToRunReport"}}
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+        </p>
       </div>
     </div>
   </template>

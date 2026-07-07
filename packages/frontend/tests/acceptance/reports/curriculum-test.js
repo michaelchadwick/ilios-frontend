@@ -86,6 +86,14 @@ module('Acceptance | Reports - Curriculum Reports', function (hooks) {
     };
   });
 
+  test('visiting /reports ends up at curriculum', async function (assert) {
+    await page.visit();
+    await takeScreenshot(assert);
+    assert.strictEqual(currentRouteName(), 'reports.curriculum');
+    assert.ok(page.switcher.curriculum.isActive);
+    assert.notOk(page.switcher.subject.isActive);
+  });
+
   test('visiting reports with one school', async function (assert) {
     await this.server.createList('course', 2, {
       school: this.school,
