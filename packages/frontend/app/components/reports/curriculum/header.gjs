@@ -244,24 +244,26 @@ export default class ReportsCurriculumHeaderComponent extends Component {
       </div>
       <div class="run">
         <p>
-          <label data-test-report-selector>
-            <span data-test-report-selector-label>
-              {{t "general.selectCurriculumReportType"}}:
-            </span>
-            <select {{on "change" this.changeSelectedReport}}>
-              <option selected={{isEmpty this.selectedReport}} value>
-                {{t "general.selectPolite"}}
-              </option>
-              {{#each (sortBy "label" this.reportList) as |report|}}
-                <option
-                  value={{report.value}}
-                  selected={{eq report.value this.selectedReport.value}}
-                >
-                  {{report.label}}
+          {{#unless @showReportResults}}
+            <label data-test-report-selector>
+              <span data-test-report-selector-label>
+                {{t "general.selectCurriculumReportType"}}:
+              </span>
+              <select {{on "change" this.changeSelectedReport}}>
+                <option selected={{isEmpty this.selectedReport}} value>
+                  {{t "general.selectPolite"}}
                 </option>
-              {{/each}}
-            </select>
-          </label>
+                {{#each (sortBy "label" this.reportList) as |report|}}
+                  <option
+                    value={{report.value}}
+                    selected={{eq report.value this.selectedReport.value}}
+                  >
+                    {{report.label}}
+                  </option>
+                {{/each}}
+              </select>
+            </label>
+          {{/unless}}
           <div data-test-run-summary>
             {{#if this.selectedReport}}
               {{#if @countSelectedCourses}}
