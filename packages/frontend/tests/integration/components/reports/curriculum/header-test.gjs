@@ -589,16 +589,19 @@ module('Integration | Component | reports/curriculum/header', function (hooks) {
       </template>,
     );
 
+    assert.ok(component.reportSelector.isPresent);
     assert.ok(component.runReport.isPresent);
     assert.ok(component.copy.isPresent);
     assert.notOk(component.close.isPresent);
     assert.notOk(component.download.isPresent);
     await component.runReport.click();
+    assert.notOk(component.reportSelector.isPresent);
     assert.ok(component.close.isPresent);
     assert.ok(component.copy.isPresent);
     assert.ok(component.download.isPresent);
     assert.notOk(component.runReport.isPresent);
     await component.close.click();
+    assert.ok(component.reportSelector.isPresent);
     assert.ok(component.runReport.isPresent);
     assert.ok(component.copy.isPresent);
     assert.notOk(component.close.isPresent);
