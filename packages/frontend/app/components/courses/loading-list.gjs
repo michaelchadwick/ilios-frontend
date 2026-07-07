@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import t from 'ember-intl/helpers/t';
 import repeat from 'ilios-common/helpers/repeat';
-import random from 'ember-math-helpers/helpers/random';
 import truncate from 'ilios-common/helpers/truncate';
 import formatDate from 'ember-intl/helpers/format-date';
 import { isTesting } from '@embroider/macros';
@@ -16,6 +15,13 @@ export default class CourseLoadingListComponent extends Component {
     const max = 10;
     return Math.floor(Math.random() * (max - min) + min);
   }
+
+  random = (min, max) => {
+    if (isTesting()) {
+      return 4;
+    }
+    return Math.floor(Math.random() * (max - min) + min);
+  };
   <template>
     <table
       class="ilios-table ilios-table-colors ilios-zebra-table courses-loading-list loading-shimmer loading-text"
@@ -44,19 +50,19 @@ export default class CourseLoadingListComponent extends Component {
         {{#each (repeat this.rows)}}
           <tr class="is-loading">
             <td class="text-left" colspan="8">{{truncate
-                (repeat (random 3 10) "ilios rocks")
+                (repeat (this.random 3 10) "ilios rocks")
                 25
               }}</td>
-            <td class="text-center hide-from-small-screen">{{random 1 9}}</td>
-            <td class="text-center hide-from-small-screen">{{random 1 9}}</td>
+            <td class="text-center hide-from-small-screen">{{this.random 1 9}}</td>
+            <td class="text-center hide-from-small-screen">{{this.random 1 9}}</td>
             <td class="text-right"></td>
           </tr>
           <tr class="courses-list-item">
             <td class="text-left" colspan="8">
-              {{truncate (repeat (random 3 10) "ilios rocks") 100}}
+              {{truncate (repeat (this.random 3 10) "ilios rocks") 100}}
             </td>
             <td class="text-center hide-from-small-screen" colspan="1">
-              {{random 1 9}}
+              {{this.random 1 9}}
             </td>
             <td class="text-center hide-from-small-screen" colspan="2">
               {{formatDate this.today day="2-digit" month="2-digit" year="numeric"}}
