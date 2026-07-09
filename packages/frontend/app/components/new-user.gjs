@@ -1,12 +1,14 @@
 import Component from '@glimmer/component';
 import { cached, tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { filter } from 'rsvp';
 import { task } from 'ember-concurrency';
+import { isEmpty } from '@ember/utils';
 import { findBy, findById } from 'ilios-common/utils/array-helpers';
 import { TrackedAsyncData } from 'ember-async-data';
 import { DateTime } from 'luxon';
-import { uniqueId } from '@ember/helper';
+import { uniqueId, concat } from '@ember/helper';
 import t from 'ember-intl/helpers/t';
 import ClickChoiceButtons from 'ilios-common/components/click-choice-buttons';
 import set from 'ember-set-helper/helpers/set';
@@ -41,6 +43,7 @@ export default class NewUserComponent extends Component {
   @tracked primaryCohortId = null;
   @tracked isSaving = false;
   @tracked nonStudentMode = true;
+  @tracked passwordStrengthScore = 0;
 
   validations = new YupValidations(this, {
     firstName: string().ensure().trim().required().max(50),
@@ -93,7 +96,7 @@ export default class NewUserComponent extends Component {
           return !auths.length;
         },
       ),
-    password: string().ensure().trim().required(),
+    password: string().min(5).ensure().trim().required(),
     phone: string().ensure().trim().max(20),
   });
 
@@ -164,6 +167,25 @@ export default class NewUserComponent extends Component {
       const finalYear = Number(obj.startYear) + Number(obj.duration);
       return finalYear > lastYear;
     });
+  }
+
+  get checkPasswordStrength() {
+    // The password is eligible for a strength check if it is not a blank string (after trimming),
+    // and if its length is at least 5 characters.
+    return '' !== this.password?.trim() && this.password?.length >= 5;
+  }
+
+  @action
+  async setPassword(password) {
+    this.password = password;
+    await this.calculatePasswordStrengthScore();
+  }
+
+  async calculatePasswordStrengthScore() {
+    const { default: zxcvbn } = await import('zxcvbn');
+    const password = isEmpty(this.password) ? '' : this.password;
+    const obj = zxcvbn(password);
+    this.passwordStrengthScore = obj.score;
   }
 
   get bestSelectedSchool() {
@@ -407,7 +429,7 @@ export default class NewUserComponent extends Component {
               data-test-username-validation-error-message
             />
           </div>
-          <div class="item" data-test-password>
+          <div class="item password-validation" data-test-password>
             <label for="password-{{templateId}}">
               {{t "general.password"}}:
             </label>
@@ -415,7 +437,7 @@ export default class NewUserComponent extends Component {
               id="password-{{templateId}}"
               type="text"
               value={{this.password}}
-              {{on "input" (pick "target.value" (set this "password"))}}
+              {{on "input" (pick "target.value" this.setPassword)}}
               {{on "keyup" (perform this.saveOrCancel)}}
               {{this.validations.attach "password"}}
             />
@@ -424,6 +446,29 @@ export default class NewUserComponent extends Component {
               @validationErrors={{this.validations.errors.password}}
               data-test-password-validation-error-message
             />
+            {{#if this.checkPasswordStrength}}
+              <span
+                class="password-strength {{concat 'strength-' this.passwordStrengthScore}}"
+                data-test-password-strength-text
+              >
+                {{#if (eq this.passwordStrengthScore 0)}}
+                  {{t "general.tryHarder"}}
+                {{else if (eq this.passwordStrengthScore 1)}}
+                  {{t "general.bad"}}
+                {{else if (eq this.passwordStrengthScore 2)}}
+                  {{t "general.weak"}}
+                {{else if (eq this.passwordStrengthScore 3)}}
+                  {{t "general.good"}}
+                {{else if (eq this.passwordStrengthScore 4)}}
+                  {{t "general.strong"}}
+                {{/if}}
+              </span>
+              <meter
+                max="4"
+                value={{this.passwordStrengthScore}}
+                data-test-password-strength-meter
+              ></meter>
+            {{/if}}
           </div>
           <div class="item" data-test-school>
             <label for="primary-school-{{templateId}}">

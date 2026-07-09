@@ -632,7 +632,7 @@ export default class UserProfileBioManagerComponent extends Component {
             />
           </div>
           {{#if @canEditUsernameAndPassword}}
-            <div class="item password" data-test-password>
+            <div class="item password password-validation" data-test-password>
               <label for="password-{{templateId}}">
                 {{t "general.password"}}:
               </label>
