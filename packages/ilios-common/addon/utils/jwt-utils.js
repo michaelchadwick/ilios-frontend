@@ -2,6 +2,8 @@
  * This module exports utility methods for dealing with JTWs.
  */
 
+import { isEmpty } from '@ember/utils';
+
 /**
  * Stolen from https://github.com/auth0/jwt-decode/blob/master/lib/base64_url_decode.js
  */
@@ -28,4 +30,30 @@ const jwtDecode = function (token) {
   return JSON.parse(b64DecodeUnicode(body));
 };
 
-export { jwtDecode };
+/**
+ * Returns a list of audience claims declared in the given JWT.
+ *
+ * @param {object} decodedJwt The decoded JTW object.
+ * @returns {array} A list of audience claims extracted from the given token object.
+ */
+const getAudienceClaimsFromDecodedJwt = function (decodedJwt) {
+  if (!Object.hasOwn(decodedJwt, 'aud')) {
+    return [];
+  }
+  const scopes = decodedJwt['aud'];
+  if (isEmpty(scopes)) {
+    return [];
+  }
+
+  if (Array.isArray(scopes)) {
+    return scopes;
+  }
+
+  if ('string' === typeof scopes) {
+    return [scopes];
+  }
+
+  return [];
+};
+
+export { getAudienceClaimsFromDecodedJwt, jwtDecode };

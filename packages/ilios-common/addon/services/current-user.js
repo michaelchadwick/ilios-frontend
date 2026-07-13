@@ -2,7 +2,7 @@ import { isEmpty } from '@ember/utils';
 import { get } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { DateTime } from 'luxon';
-import { jwtDecode } from 'ilios-common/utils/jwt-utils';
+import { getAudienceClaimsFromDecodedJwt, jwtDecode } from 'ilios-common/utils/jwt-utils';
 import { uniqueValues } from 'ilios-common/utils/array-helpers';
 
 export default class CurrentUserService extends Service {
@@ -113,24 +113,7 @@ export default class CurrentUserService extends Service {
    * @returns {string[]} A list of application scopes given for the current user.
    */
   get applicationScopes() {
-    if (!this.decodedJwt) {
-      return [];
-    }
-
-    const scopes = this.decodedJwt['aud'];
-    if (isEmpty(scopes)) {
-      return [];
-    }
-
-    if (Array.isArray(scopes)) {
-      return scopes;
-    }
-
-    if ('string' === typeof scopes) {
-      return [scopes];
-    }
-
-    return [];
+    return getAudienceClaimsFromDecodedJwt(this.decodedJwt);
   }
 
   get isRoot() {
