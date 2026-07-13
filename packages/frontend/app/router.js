@@ -29,6 +29,7 @@ Router.map(function () {
   );
   this.route('admin-dashboard', { path: '/admin' });
   this.route('login');
+  this.route('lti-login', { path: 'lti-login/:token' });
   this.route('events', { path: 'events/:slug' });
   this.route('users', {});
   this.route('user', { path: '/users/:user_id' });
