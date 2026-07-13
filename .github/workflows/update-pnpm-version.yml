@@ -28,7 +28,7 @@ jobs:
           echo "pnpm_version=${PNPM_VERSION}" >> $GITHUB_ENV
       - name: Update package.json
         run: |
-          jq '.packageManager = "pnpm@'"${{ env.pnpm_version }}"'"' package.json > temp.json
+          jq '.devEngines.packageManager.version = "${{ env.pnpm_version }}"' package.json > temp.json
           mv temp.json package.json
       - name: Create Pull Request
         id: cpr
