@@ -1,9 +1,10 @@
-import { currentRouteName } from '@ember/test-helpers';
+import { currentRouteName, currentURL } from '@ember/test-helpers';
 import { DateTime } from 'luxon';
 import { module, test } from 'qunit';
 import { setupAuthentication, freezeDateAt, unfreezeDate } from 'ilios-common';
 import { setupApplicationTest } from 'frontend/tests/helpers';
 import page from 'ilios-common/page-objects/session';
+import pubcheckPage from 'ilios-common/page-objects/session-publication-check';
 
 module('Acceptance | Session - Publish', function (hooks) {
   setupApplicationTest(hooks);
@@ -68,46 +69,64 @@ module('Acceptance | Session - Publish', function (hooks) {
     assert.strictEqual(currentRouteName(), 'session.index');
     assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Published');
     await page.details.overview.publicationMenu.toggle.click();
-    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 3);
-    assert.strictEqual(
-      page.details.overview.publicationMenu.buttons[0].text,
-      'Review 2 Missing Items',
-    );
-    assert.strictEqual(page.details.overview.publicationMenu.buttons[1].text, 'Mark as Scheduled');
-    assert.strictEqual(page.details.overview.publicationMenu.buttons[2].text, 'UnPublish Session');
+    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 2);
+    assert.strictEqual(page.details.overview.publicationMenu.buttons[0].text, 'Mark as Scheduled');
+    assert.strictEqual(page.details.overview.publicationMenu.buttons[1].text, 'UnPublish Session');
   });
 
   test('check scheduled session', async function (assert) {
     await page.visit({ courseId: this.course.id, sessionId: this.scheduledSession.id });
     assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Scheduled');
     await page.details.overview.publicationMenu.toggle.click();
-    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 3);
+    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 2);
     assert.strictEqual(page.details.overview.publicationMenu.buttons[0].text, 'Publish As-is');
-    assert.strictEqual(
-      page.details.overview.publicationMenu.buttons[1].text,
-      'Review 2 Missing Items',
-    );
-    assert.strictEqual(page.details.overview.publicationMenu.buttons[2].text, 'UnPublish Session');
+    assert.strictEqual(page.details.overview.publicationMenu.buttons[1].text, 'UnPublish Session');
   });
 
   test('check draft session', async function (assert) {
     await page.visit({ courseId: this.course.id, sessionId: this.draftSession.id });
     assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Not Published');
     await page.details.overview.publicationMenu.toggle.click();
-    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 3);
+    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 2);
     assert.strictEqual(page.details.overview.publicationMenu.buttons[0].text, 'Publish As-is');
-    assert.strictEqual(
-      page.details.overview.publicationMenu.buttons[1].text,
-      'Review 2 Missing Items',
-    );
-    assert.strictEqual(page.details.overview.publicationMenu.buttons[2].text, 'Mark as Scheduled');
+    assert.strictEqual(page.details.overview.publicationMenu.buttons[1].text, 'Mark as Scheduled');
   });
 
   test('check publish draft session', async function (assert) {
     await page.visit({ courseId: this.course.id, sessionId: this.draftSession.id });
-    assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Not Published');
+
+    assert.strictEqual(currentURL(), '/courses/1/sessions/3', 'session page url is correct');
+    assert.strictEqual(
+      page.details.overview.publicationMenu.toggle.text,
+      'Not Published',
+      'session published status is correct',
+    );
+
     await page.details.overview.publicationMenu.toggle.click();
     await page.details.overview.publicationMenu.publishAsIs();
+
+    assert.strictEqual(
+      currentURL(),
+      '/courses/1/sessions/3/publicationcheck',
+      'session publicationcheck url is correct',
+    );
+
+    const pubcheck = pubcheckPage.publicationcheck;
+
+    assert.strictEqual(pubcheck.title, 'Publication Review');
+    assert.strictEqual(pubcheck.missingItemsTitle, 'Missing Items (2)');
+    assert.strictEqual(pubcheck.sessionTitle, 'session 2');
+    assert.strictEqual(pubcheck.offerings, 'Yes (1)');
+    assert.strictEqual(pubcheck.terms, 'No');
+    assert.strictEqual(pubcheck.objectives, 'No');
+    assert.strictEqual(
+      pubcheck.publishWithMissingItems.text,
+      'Publish Session, with 2 items missing',
+    );
+
+    await pubcheckPage.publicationcheck.publishWithMissingItems.click();
+
+    assert.strictEqual(currentURL(), '/courses/1/sessions/3', 'session page url is correct');
     assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Published');
   });
 
@@ -124,6 +143,28 @@ module('Acceptance | Session - Publish', function (hooks) {
     assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Scheduled');
     await page.details.overview.publicationMenu.toggle.click();
     await page.details.overview.publicationMenu.publishAsIs();
+
+    assert.strictEqual(
+      currentURL(),
+      '/courses/1/sessions/2/publicationcheck',
+      'session publicationcheck url is correct',
+    );
+
+    const pubcheck = pubcheckPage.publicationcheck;
+
+    assert.strictEqual(pubcheck.title, 'Publication Review');
+    assert.strictEqual(pubcheck.missingItemsTitle, 'Missing Items (2)');
+    assert.strictEqual(pubcheck.sessionTitle, 'session 1');
+    assert.strictEqual(pubcheck.offerings, 'Yes (1)');
+    assert.strictEqual(pubcheck.terms, 'No');
+    assert.strictEqual(pubcheck.objectives, 'No');
+    assert.strictEqual(
+      pubcheck.publishWithMissingItems.text,
+      'Publish Session, with 2 items missing',
+    );
+
+    await pubcheckPage.publicationcheck.publishWithMissingItems.click();
+
     assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Published');
   });
 
@@ -155,12 +196,8 @@ module('Acceptance | Session - Publish', function (hooks) {
     await page.visit({ courseId: this.course.id, sessionId: this.ilmSession.id });
     assert.strictEqual(page.details.overview.publicationMenu.toggle.text, 'Not Published');
     await page.details.overview.publicationMenu.toggle.click();
-    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 3);
+    assert.strictEqual(page.details.overview.publicationMenu.buttons.length, 2);
     assert.strictEqual(page.details.overview.publicationMenu.buttons[0].text, 'Publish As-is');
-    assert.strictEqual(
-      page.details.overview.publicationMenu.buttons[1].text,
-      'Review 2 Missing Items',
-    );
-    assert.strictEqual(page.details.overview.publicationMenu.buttons[2].text, 'Mark as Scheduled');
+    assert.strictEqual(page.details.overview.publicationMenu.buttons[1].text, 'Mark as Scheduled');
   });
 });

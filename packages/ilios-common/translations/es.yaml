@@ -290,6 +290,7 @@ general:
   publishAsIs: Publique Como Es
   publishCourse: Publique Curso
   publishCourseWithMissingItems: Publique Curso, con {missingItemCount, plural, =1 {1 artículo faltante} other {# artículos faltantes}}
+  publishSessionWithMissingItems: Publique Sesión, con {missingItemCount, plural, =1 {1 artículo faltante} other {# artículos faltantes}}
   published: Publicado
   publishedSessions: Sesiones Publicadas
   publishedSuccessfully: Publicado con éxito
@@ -299,7 +300,6 @@ general:
   results: Resultados
   resultsCount: "{count, plural, =1 {1 resultado} other {# resultados}}"
   returnToPreviousPage: Volver a la Página Anterior
-  reviewMissingItems: "Revisar {count} Artículos Faltantes"
   saturday: Sábado
   save: Guardar
   savedSuccessfully: ahorrado con éxito

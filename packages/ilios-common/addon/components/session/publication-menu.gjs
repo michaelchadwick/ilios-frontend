@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
-import { uniqueId, get } from '@ember/helper';
+import { uniqueId } from '@ember/helper';
 import onClickOutside from 'ember-click-outside/modifiers/on-click-outside';
 import set from 'ember-set-helper/helpers/set';
 import { on } from '@ember/modifier';
@@ -50,18 +50,15 @@ export default class SessionPublicationMenuComponent extends Component {
   get showTbd() {
     return !this.args.session.publishedAsTbd;
   }
-  get showAsIs() {
+  get showReviewAsIs() {
+    if (this.router.currentRouteName === 'session.publication-check') {
+      return false;
+    }
     return (
       (!this.args.session.published || this.args.session.publishedAsTbd) &&
       this.args.session.requiredPublicationIssues.length === 0 &&
       this.args.session.allPublicationIssuesLength !== 0
     );
-  }
-  get showReview() {
-    if (this.router.currentRouteName === 'session.publication-check') {
-      return false;
-    }
-    return !this.hideCheckLink && this.args.session.allPublicationIssuesLength > 0;
   }
   get showPublish() {
     return (
@@ -205,13 +202,13 @@ export default class SessionPublicationMenuComponent extends Component {
         </button>
         {{#if this.isOpen}}
           <div class="menu" role="menu" data-test-menu {{focus}}>
-            {{#if this.showAsIs}}
+            {{#if this.showReviewAsIs}}
               <button
                 class="alert"
                 role="menuitem"
                 tabindex="-1"
                 type="button"
-                {{on "click" this.publish}}
+                {{on "click" this.scrollToSessionPublication}}
                 {{on "keydown" this.keyDown}}
                 {{on "mouseenter" this.clearFocus}}
                 data-test-publish-as-is
@@ -231,20 +228,6 @@ export default class SessionPublicationMenuComponent extends Component {
                 data-test-publish
               >
                 {{t "general.publishSession"}}
-              </button>
-            {{/if}}
-            {{#if this.showReview}}
-              <button
-                class="good"
-                role="menuitem"
-                tabindex="-1"
-                type="button"
-                {{on "click" this.scrollToSessionPublication}}
-                {{on "keydown" this.keyDown}}
-                {{on "mouseenter" this.clearFocus}}
-                data-test-review
-              >
-                {{t "general.reviewMissingItems" count=(get @session "allPublicationIssuesLength")}}
               </button>
             {{/if}}
             {{#if this.showTbd}}
