@@ -5,6 +5,13 @@
 import { isEmpty } from '@ember/utils';
 
 /**
+ * A list of JWT audience claims that Ilios accepts
+ * as application scopes.
+ * @type {string[]}
+ */
+const ILIOS_LTI_SUPPORTED_JWT_AUDIENCE_CLAIMS = ['lti-dashboard', 'lti-course-manager'];
+
+/**
  * Stolen from https://github.com/auth0/jwt-decode/blob/master/lib/base64_url_decode.js
  */
 const b64DecodeUnicode = function (str) {
@@ -37,6 +44,7 @@ const jwtDecode = function (token) {
  * @returns {array} A list of audience claims extracted from the given token object.
  */
 const getAudienceClaimsFromDecodedJwt = function (decodedJwt) {
+  decodedJwt = decodedJwt ?? {};
   if (!Object.hasOwn(decodedJwt, 'aud')) {
     return [];
   }
@@ -56,4 +64,16 @@ const getAudienceClaimsFromDecodedJwt = function (decodedJwt) {
   return [];
 };
 
-export { getAudienceClaimsFromDecodedJwt, jwtDecode };
+/**
+ * Checks if the given decoded JWT matches at least one of the LTI application scopes as an audience claim.
+ * @param {object} decodedJwt The decoded JTW object.
+ * @returns { boolean }
+ */
+const decodedLtiTokenHasLtiAudienceClaims = function (decodedJwt) {
+  // user authorized for LTI usage do not get to see the full layout.
+  return getAudienceClaimsFromDecodedJwt(decodedJwt).some((scope) =>
+    ILIOS_LTI_SUPPORTED_JWT_AUDIENCE_CLAIMS.includes(scope),
+  );
+};
+
+export { decodedLtiTokenHasLtiAudienceClaims, getAudienceClaimsFromDecodedJwt, jwtDecode };

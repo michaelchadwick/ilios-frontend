@@ -295,29 +295,29 @@ module('Integration | Service | Current User', function (hooks) {
   });
 
   test.each(
-    'applicationScopes',
+    'isLtiUser',
     [
-      [undefined, []],
-      [null, []],
-      [{ not: 'an array or string' }, []],
-      [[], []],
-      [
-        ['foo', 'bar'],
-        ['foo', 'bar'],
-      ],
-      ['foo', ['foo']],
+      [undefined, false],
+      [null, false],
+      [{ not: 'an array or string' }, false],
+      [[], false],
+      [['foo', 'bar'], false],
+      ['lti-dashboard', true],
+      [['lti-dashboard'], true],
+      ['lti-course-manager', true],
+      [['lti-course-manager'], true],
+      [['lti-dashboard', 'lti-course-manager'], true],
+      [['lti-dashboard', 'lti-course-manager', 'foo'], true],
+      [['lti-dashboard', 'foo'], true],
+      [['lti-course-manager', 'foo'], true],
     ],
-    async function (assert, [aud, expectedApplicationScopes]) {
+    async function (assert, [aud, expected]) {
       await invalidateSession();
       await authenticateSession({
         jwt: jwtEncode({ user_id: 100, aud }),
       });
       const currentUser = this.owner.lookup('service:current-user');
-      const applicationScopes = currentUser.applicationScopes;
-      assert.strictEqual(applicationScopes.length, expectedApplicationScopes.length);
-      for (let i = 0, n = length; i < n; i++) {
-        assert.strictEqual(applicationScopes[i], expectedApplicationScopes[i]);
-      }
+      assert.strictEqual(currentUser.isLtiUser, expected);
     },
   );
 

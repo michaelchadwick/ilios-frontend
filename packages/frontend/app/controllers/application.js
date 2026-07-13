@@ -48,9 +48,7 @@ export default class ApplicationController extends Controller {
 
   get useFullLayout() {
     // user authorized for LTI usage do not get to see the full layout.
-    return !this.currentUser.applicationScopes.some((scope) =>
-      this.ltiApplicationScopes.includes(scope),
-    );
+    return !this.currentUser.isLtiUser;
   }
 
   get hasNavigation() {

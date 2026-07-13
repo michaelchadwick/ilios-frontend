@@ -1,4 +1,8 @@
-import { jwtDecode, getAudienceClaimsFromDecodedJwt } from 'ilios-common/utils/jwt-utils';
+import {
+  decodedLtiTokenHasLtiAudienceClaims,
+  jwtDecode,
+  getAudienceClaimsFromDecodedJwt,
+} from 'ilios-common/utils/jwt-utils';
 import { module, test } from 'qunit';
 import { jwtEncode } from 'ilios-common';
 
@@ -23,6 +27,29 @@ module('Unit | Utility | jwt-utils', function () {
     ],
     function (assert, [decodedJwt, expectedAudiences]) {
       assert.deepEqual(getAudienceClaimsFromDecodedJwt(decodedJwt), expectedAudiences);
+    },
+  );
+
+  test.each(
+    'decoded token has LTI audience claim',
+    [
+      [undefined, false],
+      [null, false],
+      [{ not: 'an array or string' }, false],
+      [[], false],
+      [['foo', 'bar'], false],
+      ['lti-dashboard', true],
+      [['lti-dashboard'], true],
+      ['lti-course-manager', true],
+      [['lti-course-manager'], true],
+      [['lti-dashboard', 'lti-course-manager'], true],
+      [['lti-dashboard', 'lti-course-manager', 'foo'], true],
+      [['lti-dashboard', 'foo'], true],
+      [['lti-course-manager', 'foo'], true],
+    ],
+    async function (assert, [aud, expected]) {
+      const decodedJwt = { aud };
+      assert.strictEqual(decodedLtiTokenHasLtiAudienceClaims(decodedJwt), expected);
     },
   );
 });

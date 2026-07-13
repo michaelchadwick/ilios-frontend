@@ -2,7 +2,7 @@ import { isEmpty } from '@ember/utils';
 import { get } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { DateTime } from 'luxon';
-import { getAudienceClaimsFromDecodedJwt, jwtDecode } from 'ilios-common/utils/jwt-utils';
+import { decodedLtiTokenHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
 import { uniqueValues } from 'ilios-common/utils/array-helpers';
 
 export default class CurrentUserService extends Service {
@@ -107,13 +107,11 @@ export default class CurrentUserService extends Service {
   }
 
   /**
-   * Return the application scopes for the current user.
-   * These are mapped to the audience claim attribute of the JWT
-   * that is used to authenticate the current user.
-   * @returns {string[]} A list of application scopes given for the current user.
+   * Checks if the current user is logged in with an LTI application scope.
+   * @returns {boolean}
    */
-  get applicationScopes() {
-    return getAudienceClaimsFromDecodedJwt(this.decodedJwt);
+  get isLtiUser() {
+    return decodedLtiTokenHasLtiAudienceClaims(this.decodedJwt);
   }
 
   get isRoot() {
