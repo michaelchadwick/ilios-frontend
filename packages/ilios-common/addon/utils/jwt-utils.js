@@ -76,4 +76,4 @@ const decodedLtiTokenHasLtiAudienceClaims = function (decodedJwt) {
   );
 };
 
-export { decodedLtiTokenHasLtiAudienceClaims, getAudienceClaimsFromDecodedJwt, jwtDecode };
+export { decodedLtiTokenHasLtiAudienceClaims, jwtDecode };

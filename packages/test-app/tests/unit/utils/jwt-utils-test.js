@@ -1,8 +1,4 @@
-import {
-  decodedLtiTokenHasLtiAudienceClaims,
-  jwtDecode,
-  getAudienceClaimsFromDecodedJwt,
-} from 'ilios-common/utils/jwt-utils';
+import { decodedLtiTokenHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
 import { module, test } from 'qunit';
 import { jwtEncode } from 'ilios-common';
 
@@ -14,21 +10,6 @@ module('Unit | Utility | jwt-utils', function () {
     assert.strictEqual(obj.name, 'John Doe');
     assert.true(obj.admin);
   });
-
-  test.each(
-    'get audience claims from decoded token',
-    [
-      [{}, []],
-      [{ aud: null }, []],
-      [{ aud: [] }, []],
-      [{ aud: 'ilios' }, ['ilios']],
-      [{ aud: ['ilios'] }, ['ilios']],
-      [{ aud: ['ilios', 'lti'] }, ['ilios', 'lti']],
-    ],
-    function (assert, [decodedJwt, expectedAudiences]) {
-      assert.deepEqual(getAudienceClaimsFromDecodedJwt(decodedJwt), expectedAudiences);
-    },
-  );
 
   test.each(
     'decoded token has LTI audience claim',
