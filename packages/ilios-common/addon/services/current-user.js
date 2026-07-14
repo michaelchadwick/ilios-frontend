@@ -2,7 +2,7 @@ import { isEmpty } from '@ember/utils';
 import { get } from '@ember/object';
 import Service, { service } from '@ember/service';
 import { DateTime } from 'luxon';
-import { decodedLtiTokenHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
+import { decodedJwtHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
 import { uniqueValues } from 'ilios-common/utils/array-helpers';
 
 export default class CurrentUserService extends Service {
@@ -111,7 +111,7 @@ export default class CurrentUserService extends Service {
    * @returns {boolean}
    */
   get isLtiUser() {
-    return decodedLtiTokenHasLtiAudienceClaims(this.decodedJwt);
+    return decodedJwtHasLtiAudienceClaims(this.decodedJwt);
   }
 
   get isRoot() {

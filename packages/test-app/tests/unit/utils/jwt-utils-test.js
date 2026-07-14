@@ -1,4 +1,4 @@
-import { decodedLtiTokenHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
+import { decodedJwtHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
 import { module, test } from 'qunit';
 import { jwtEncode } from 'ilios-common';
 
@@ -30,7 +30,7 @@ module('Unit | Utility | jwt-utils', function () {
     ],
     async function (assert, [aud, expected]) {
       const decodedJwt = { aud };
-      assert.strictEqual(decodedLtiTokenHasLtiAudienceClaims(decodedJwt), expected);
+      assert.strictEqual(decodedJwtHasLtiAudienceClaims(decodedJwt), expected);
     },
   );
 });

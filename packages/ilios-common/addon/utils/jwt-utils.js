@@ -69,11 +69,11 @@ const getAudienceClaimsFromDecodedJwt = function (decodedJwt) {
  * @param {object} decodedJwt The decoded JTW object.
  * @returns { boolean }
  */
-const decodedLtiTokenHasLtiAudienceClaims = function (decodedJwt) {
+const decodedJwtHasLtiAudienceClaims = function (decodedJwt) {
   // user authorized for LTI usage do not get to see the full layout.
   return getAudienceClaimsFromDecodedJwt(decodedJwt).some((scope) =>
     ILIOS_LTI_SUPPORTED_JWT_AUDIENCE_CLAIMS.includes(scope),
   );
 };
 
-export { decodedLtiTokenHasLtiAudienceClaims, jwtDecode };
+export { decodedJwtHasLtiAudienceClaims, jwtDecode };

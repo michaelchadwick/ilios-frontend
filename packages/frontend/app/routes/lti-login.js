@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import { decodedLtiTokenHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
+import { decodedJwtHasLtiAudienceClaims, jwtDecode } from 'ilios-common/utils/jwt-utils';
 
 export default class LtiLoginRoute extends Route {
   @service serverVariables;
@@ -10,7 +10,7 @@ export default class LtiLoginRoute extends Route {
 
   async model({ token }) {
     const decodedJwt = jwtDecode(token);
-    if (!decodedLtiTokenHasLtiAudienceClaims(decodedJwt)) {
+    if (!decodedJwtHasLtiAudienceClaims(decodedJwt)) {
       throw new Error('Access denied');
     }
     const jwt = await this.getNewToken(token);
