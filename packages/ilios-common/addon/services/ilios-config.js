@@ -1,20 +1,33 @@
 import Service, { service } from '@ember/service';
 
 export default class IliosConfigService extends Service {
+  @service router;
   @service fetch;
   @service serverVariables;
   _configPromise = null;
 
   async getConfig() {
     if (!this._configPromise) {
-      this._configPromise = this.fetch.getJsonFromApiHost('/application/config');
+      try {
+        this._configPromise = this.fetch.getJsonFromApiHost('/application/config');
+      } catch (error) {
+        console.error('application config query failed', error);
+      }
     }
+
     const config = await this._configPromise;
     return config;
   }
 
   async itemFromConfig(key) {
     const config = await this.getConfig();
+
+    // if no valid config, jwt token might be invalid, so log user out
+    if (!config) {
+      this.router.transitionTo('logout');
+      return;
+    }
+
     const obj = config.config;
     return key in obj ? obj[key] : null;
   }

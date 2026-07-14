@@ -12,6 +12,7 @@ export default class AuthenticatedRoute extends Route {
   @service store;
   @service router;
   @service session;
+  @service iliosConfig;
   @service localStorage;
 
   @tracked event;
@@ -27,9 +28,11 @@ export default class AuthenticatedRoute extends Route {
   }
 
   async afterModel() {
-    if (this.session.isAuthenticated) {
+    // make sure we have a valid config
+    const config = await this.iliosConfig.getConfig();
+    if (this.session.isAuthenticated && config) {
       //preload all the schools, we need these everywhere
-      //this is also done when a user is first authetnicated in app/services/session.js
+      //this is also done when a user is first authenticated in app/services/session.js
       await this.store.findAll('school');
     }
   }

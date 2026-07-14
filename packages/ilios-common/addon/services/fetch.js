@@ -32,12 +32,22 @@ export default class Fetch extends Service {
   async getJsonFromApiHost(relativePath) {
     const url = this.apiHostUrlFromPath(relativePath);
 
-    const response = await waitForFetch(
-      fetch(url, {
-        headers: this.authHeaders,
-      }),
-    );
-    return response.json();
+    try {
+      const response = await waitForFetch(
+        fetch(url, {
+          headers: this.authHeaders,
+        }),
+      );
+
+      // if server returns unauthorized, dont try to json-ify things
+      if (response.status == 401) {
+        return null;
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('fetching from api host failed', error);
+    }
   }
 
   async postToApiHost(relativePath, body, contentType) {
