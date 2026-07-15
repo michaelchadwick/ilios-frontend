@@ -6,6 +6,7 @@ import { camelize } from '@ember/string';
 export default class IliosAdapter extends JSONAPIAdapter {
   @service iliosConfig;
   @service session;
+  @service router;
   coalesceFindRequests = true;
   sortQueryParams = false;
 
@@ -27,6 +28,17 @@ export default class IliosAdapter extends JSONAPIAdapter {
 
   get namespace() {
     return this.iliosConfig.apiNameSpace;
+  }
+
+  handleResponse(status, _headers, payload, requestData) {
+    // if invalid auth, redirect to login
+    if (status == 401) {
+      this.session.invalidate();
+      this.router.transitionTo('login');
+    }
+
+    // otherwise, pass through as usual
+    return super.handleResponse(status, _headers, payload, requestData);
   }
 
   shouldReloadAll() {
