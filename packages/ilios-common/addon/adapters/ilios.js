@@ -33,10 +33,10 @@ export default class IliosAdapter extends JSONAPIAdapter {
   }
 
   handleResponse(status, _headers, payload, requestData) {
-    // if invalid auth, redirect to logout (which invalidates session)
+    // if invalid auth, invalidate session
     if (status == 401) {
       this.flashMessages.alert(this.intl.t('errors.invalidAuthentication'));
-      this.router.transitionTo('logout');
+      this.session.invalidate();
     }
 
     // otherwise, pass through as usual
