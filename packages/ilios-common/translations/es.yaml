@@ -440,6 +440,7 @@ errors:
   greaterThanOrEqualTo: "{description} debe ser mayor que o igual a {gte}"
   inclusion: "{description} no está incluido en la lista"
   invalid: "{description} es inválido"
+  invalidAuthentication: "Se ha cerrado tu sesión debido a una autenticación no válida."
   lessThan: "{description} debe ser menos que {lt}"
   lessThanOrEqualTo: "{description} debe ser menos que o igual a {lte}"
   minimum: "{description} debe ser mayor o igual a {min}"

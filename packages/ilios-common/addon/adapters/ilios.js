@@ -4,9 +4,11 @@ import { pluralize } from 'ember-inflector';
 import { camelize } from '@ember/string';
 
 export default class IliosAdapter extends JSONAPIAdapter {
+  @service flashMessages;
   @service iliosConfig;
   @service session;
   @service router;
+  @service intl;
   coalesceFindRequests = true;
   sortQueryParams = false;
 
@@ -31,10 +33,10 @@ export default class IliosAdapter extends JSONAPIAdapter {
   }
 
   handleResponse(status, _headers, payload, requestData) {
-    // if invalid auth, redirect to login
+    // if invalid auth, redirect to logout (which invalidates session)
     if (status == 401) {
-      this.session.invalidate();
-      this.router.transitionTo('login');
+      this.flashMessages.alert(this.intl.t('errors.invalidAuthentication'));
+      this.router.transitionTo('logout');
     }
 
     // otherwise, pass through as usual

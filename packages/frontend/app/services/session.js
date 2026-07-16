@@ -7,6 +7,7 @@ export default class SessionService extends ESASessionService {
   @service fetch;
   @service currentUser;
   @service store;
+  @service router;
 
   async handleAuthentication() {
     super.handleAuthentication(...arguments);
@@ -29,9 +30,9 @@ export default class SessionService extends ESASessionService {
       const logoutUrl = '/auth/logout';
       return this.fetch.getJsonFromApiHost(logoutUrl).then((response) => {
         if (response.status === 'redirect') {
-          window.location.replace(response.logoutUrl);
+          this.router.replaceWith(response.logoutUrl);
         } else {
-          window.location.replace(config.rootURL);
+          this.router.replaceWith(config.rootURL);
         }
       });
     }
