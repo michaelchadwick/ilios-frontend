@@ -144,13 +144,15 @@ export default class GlobalSearchComponent extends Component {
             {{t "general.currentlySearchingPrompt"}}
           </li>
         {{else}}
-          {{#each this.results as |course|}}
-            <CourseSearchResult @course={{course}} />
-          {{else}}
-            <li class="no-results">
-              {{t "general.noSearchResultsPrompt"}}
-            </li>
-          {{/each}}
+          {{#if @query.length}}
+            {{#each this.results as |course|}}
+              <CourseSearchResult @course={{course}} />
+            {{else}}
+              <li class="no-results">
+                {{t "general.noSearchResultsPrompt"}}
+              </li>
+            {{/each}}
+          {{/if}}
         {{/if}}
       </ul>
       <fieldset class="filters">
