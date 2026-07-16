@@ -6,6 +6,7 @@ import searchBox from './global-search-box';
 const definition = {
   scope: '[data-test-global-search]',
   searchBox,
+  noQueryIsVisible: isVisible('.no-query'),
   noResultsIsVisible: isVisible('.no-results'),
   courseTitleLinks: collection('.course-title-link'),
   schoolFilters: collection('[data-test-school-filters] [data-test-school-filter]', {

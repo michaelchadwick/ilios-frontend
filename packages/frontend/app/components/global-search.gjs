@@ -152,6 +152,8 @@ export default class GlobalSearchComponent extends Component {
                 {{t "general.noSearchResultsPrompt"}}
               </li>
             {{/each}}
+          {{else}}
+            <li class="no-query"></li>
           {{/if}}
         {{/if}}
       </ul>

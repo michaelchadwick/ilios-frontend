@@ -53,9 +53,11 @@ module('Integration | Component | global-search', function (hooks) {
         />
       </template>,
     );
-    assert.ok(component.noResultsIsVisible, 'no results');
+    assert.ok(component.noQueryIsVisible);
+    assert.notOk(component.noResultsIsVisible);
     this.set('query', 'hello world');
     await settled();
+    assert.notOk(component.noQueryIsVisible);
     assert.notOk(component.noResultsIsVisible);
     assert.verifySteps(['API called']);
   });
