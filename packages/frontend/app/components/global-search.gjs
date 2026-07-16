@@ -134,17 +134,17 @@ export default class GlobalSearchComponent extends Component {
         @selectedSchools={{@selectedSchools}}
         @selectedYears={{@selectedYears}}
       />
-      <ul
-        class="results {{if (and this.resultsData.isPending (not this.hasResults)) 'hidden'}}"
-        data-test-results
-      >
-        {{#if this.resultsData.isPending}}
-          <li class="searching" data-test-searching>
-            <LoadingSpinner @class="orange" />
-            {{t "general.currentlySearchingPrompt"}}
-          </li>
-        {{else}}
-          {{#if @query.length}}
+      {{#if @query.length}}
+        <ul
+          class="results {{if (and this.resultsData.isPending (not this.hasResults)) 'hidden'}}"
+          data-test-results
+        >
+          {{#if this.resultsData.isPending}}
+            <li class="searching" data-test-searching>
+              <LoadingSpinner @class="orange" />
+              {{t "general.currentlySearchingPrompt"}}
+            </li>
+          {{else}}
             {{#each this.results as |course|}}
               <CourseSearchResult @course={{course}} />
             {{else}}
@@ -152,11 +152,9 @@ export default class GlobalSearchComponent extends Component {
                 {{t "general.noSearchResultsPrompt"}}
               </li>
             {{/each}}
-          {{else}}
-            <li class="no-query"></li>
           {{/if}}
-        {{/if}}
-      </ul>
+        </ul>
+      {{/if}}
       <fieldset class="filters">
         {{#if (gt this.schools.length 1)}}
           <h2>{{t "general.schools"}}</h2>
