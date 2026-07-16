@@ -48,7 +48,7 @@ jobs:
           path: build
           key: screenshots-${{ steps.ref.outputs.ref }}-${{ matrix.name }}
       - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -102,7 +102,7 @@ jobs:
           path: build
           key: screenshots-${{ steps.ref.outputs.ref }}-${{ matrix.name }}
       - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
@@ -155,7 +155,7 @@ jobs:
           path: candidate-frontend
           merge-multiple: true
       - run: ls -lh baseline-frontend candidate-frontend 2>/dev/null || true
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
       - run: |
