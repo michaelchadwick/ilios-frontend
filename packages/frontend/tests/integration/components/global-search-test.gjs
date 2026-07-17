@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest } from 'frontend/tests/helpers';
+import { setupRenderingTest, takeScreenshot } from 'frontend/tests/helpers';
 import { render, settled } from '@ember/test-helpers';
 import { component } from 'frontend/tests/pages/components/global-search';
 import { setupMSW } from 'ilios-common/msw';
@@ -29,14 +29,7 @@ module('Integration | Component | global-search', function (hooks) {
       assert.notOk(searchParams.get('onlySuggest'));
       return {
         results: {
-          courses: [
-            {
-              title: 'Course 1',
-              year: 2019,
-              sessions: [],
-              school: 'Medicine',
-            },
-          ],
+          courses: [],
         },
       };
     });
@@ -53,10 +46,12 @@ module('Integration | Component | global-search', function (hooks) {
         />
       </template>,
     );
+    await takeScreenshot(assert, 'no query');
     assert.notOk(component.noResultsIsVisible);
     this.set('query', 'hello world');
     await settled();
-    assert.notOk(component.noResultsIsVisible);
+    await takeScreenshot(assert, 'query');
+    assert.ok(component.noResultsIsVisible);
     assert.verifySteps(['API called']);
   });
 
