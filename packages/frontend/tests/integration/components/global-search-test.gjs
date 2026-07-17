@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { setupRenderingTest, takeScreenshot } from 'frontend/tests/helpers';
+import { setupRenderingTest, takeComponentScreenshot } from 'frontend/tests/helpers';
 import { render, settled } from '@ember/test-helpers';
 import { component } from 'frontend/tests/pages/components/global-search';
 import { setupMSW } from 'ilios-common/msw';
@@ -46,11 +46,11 @@ module('Integration | Component | global-search', function (hooks) {
         />
       </template>,
     );
-    await takeScreenshot(assert, 'no query');
+    await takeComponentScreenshot(assert, 'no query');
     assert.notOk(component.noResultsIsVisible);
     this.set('query', 'hello world');
     await settled();
-    await takeScreenshot(assert, 'query');
+    await takeComponentScreenshot(assert, 'query');
     assert.ok(component.noResultsIsVisible);
     assert.verifySteps(['API called']);
   });
