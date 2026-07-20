@@ -3,7 +3,10 @@ import queryString from 'query-string';
 import { waitForFetch } from '@ember/test-waiters';
 
 export default class Fetch extends Service {
+  @service flashMessages;
+  @service intl;
   @service session;
+  @service router;
   @service iliosConfig;
 
   get authHeaders() {
@@ -37,6 +40,13 @@ export default class Fetch extends Service {
         headers: this.authHeaders,
       }),
     );
+
+    // if invalid auth, invalidate session
+    if (response.status == 401) {
+      this.flashMessages.alert(this.intl.t('errors.invalidAuthentication'));
+      this.session.invalidate();
+    }
+
     return response.json();
   }
 
@@ -45,6 +55,7 @@ export default class Fetch extends Service {
     const headers = this.authHeaders;
     headers['Content-Type'] = contentType;
     headers['Accept'] = 'application/vnd.api+json';
+
     const response = await waitForFetch(
       fetch(url, {
         method: 'POST',
@@ -52,6 +63,13 @@ export default class Fetch extends Service {
         body,
       }),
     );
+
+    // if invalid auth, invalidate session
+    if (response.status == 401) {
+      this.flashMessages.alert(this.intl.t('errors.invalidAuthentication'));
+      this.session.invalidate();
+    }
+
     return response.json();
   }
 

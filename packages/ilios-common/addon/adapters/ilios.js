@@ -4,8 +4,11 @@ import { pluralize } from 'ember-inflector';
 import { camelize } from '@ember/string';
 
 export default class IliosAdapter extends JSONAPIAdapter {
+  @service flashMessages;
   @service iliosConfig;
   @service session;
+  @service router;
+  @service intl;
   coalesceFindRequests = true;
   sortQueryParams = false;
 
@@ -27,6 +30,17 @@ export default class IliosAdapter extends JSONAPIAdapter {
 
   get namespace() {
     return this.iliosConfig.apiNameSpace;
+  }
+
+  handleResponse(status, _headers, payload, requestData) {
+    // if invalid auth, invalidate session
+    if (status == 401) {
+      this.flashMessages.alert(this.intl.t('errors.invalidAuthentication'));
+      this.session.invalidate();
+    }
+
+    // otherwise, pass through as usual
+    return super.handleResponse(status, _headers, payload, requestData);
   }
 
   shouldReloadAll() {

@@ -2,7 +2,10 @@ import Service, { service } from '@ember/service';
 import { waitForFetch } from '@ember/test-waiters';
 
 export default class GraphqlService extends Service {
+  @service flashMessages;
+  @service intl;
   @service session;
+  @service router;
   @service iliosConfig;
 
   get authHeaders() {
@@ -35,6 +38,13 @@ export default class GraphqlService extends Service {
         body: JSON.stringify({ query: q }),
       }),
     );
+
+    // if invalid auth, invalidate session
+    if (response.status == 401) {
+      this.flashMessages.alert(this.intl.t('errors.invalidAuthentication'));
+      this.session.invalidate();
+    }
+
     return response.json();
   }
 
