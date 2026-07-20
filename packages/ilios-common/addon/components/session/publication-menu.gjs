@@ -56,7 +56,6 @@ export default class SessionPublicationMenuComponent extends Component {
     }
     return (
       (!this.args.session.published || this.args.session.publishedAsTbd) &&
-      this.args.session.requiredPublicationIssues.length === 0 &&
       this.args.session.allPublicationIssuesLength !== 0
     );
   }
