@@ -62,6 +62,17 @@ export default class SessionPublicationCheckComponent extends Component {
     return objectivesWithoutParents.length > 0;
   }
 
+  get hasNoIssues() {
+    return (
+      this.args.session.requiredPublicationIssues.length === 0 &&
+      this.args.session.allPublicationIssuesLength === 0
+    );
+  }
+
+  get hasMissingRequirements() {
+    return this.args.session.requiredPublicationIssues.length !== 0;
+  }
+
   @action
   async publish() {
     this.args.session.set('publishedAsTbd', false);
@@ -71,7 +82,11 @@ export default class SessionPublicationCheckComponent extends Component {
     this.router.transitionTo('session', this.args.session);
   }
   <template>
-    <div class="session-publicationcheck" data-test-session-publicationcheck>
+    <div
+      class="session-publicationcheck"
+      data-test-session-publicationcheck
+      {{scrollIntoView delay=10}}
+    >
       <Overview @session={{@session}} @hideCheckLink={{true}} @sessionTypes={{this.sessionTypes}} />
       <div class="back-to-session">
         <LinkTo
@@ -83,7 +98,7 @@ export default class SessionPublicationCheckComponent extends Component {
           {{t "general.backToTitle" title=@session.title}}
         </LinkTo>
       </div>
-      <div class="results" {{scrollIntoView delay=10}}>
+      <div class="results">
         <h3 class="title" data-test-title>{{t "general.publicationReview"}}</h3>
         <div class="sub-title" data-test-missing-items>
           {{t "general.missingItems"}}
@@ -158,12 +173,27 @@ export default class SessionPublicationCheckComponent extends Component {
           </table>
         </div>
         <div data-test-session-publicationcheck-actions>
-          <button type="button" {{on "click" this.publish}} data-test-publish-with-missing-items>
-            {{t
-              "general.publishSessionWithMissingItems"
-              missingItemCount=@session.allPublicationIssuesLength
-            }}
-          </button>
+          {{#if this.hasNoIssues}}
+            <button type="button" {{on "click" this.publish}} data-test-publish>
+              {{t "general.publishSession"}}
+            </button>
+          {{else if this.hasMissingRequirements}}
+            <button
+              type="button"
+              disabled
+              title="{{t 'general.canNotPublishSession'}}"
+              data-test-publish-missing-requirements
+            >
+              {{t "general.publishSession"}}
+            </button>
+          {{else}}
+            <button type="button" {{on "click" this.publish}} data-test-publish-with-missing-items>
+              {{t
+                "general.publishSessionWithMissingItems"
+                missingItemCount=@session.allPublicationIssuesLength
+              }}
+            </button>
+          {{/if}}
         </div>
       </div>
     </div>
