@@ -34,15 +34,12 @@ export default class CoursePublicationCheckComponent extends Component {
     return objectivesWithoutParents.length > 0;
   }
 
-  get hasNoIssues() {
-    return (
-      this.args.course.requiredPublicationIssues.length === 0 &&
-      this.args.course.allPublicationIssuesLength === 0
-    );
-  }
-
   get hasMissingRequirements() {
     return this.args.course.requiredPublicationIssues.length !== 0;
+  }
+
+  get hasMissingItems() {
+    return this.args.course.allPublicationIssuesLength !== 0;
   }
 
   @action
@@ -147,11 +144,7 @@ export default class CoursePublicationCheckComponent extends Component {
           </table>
         </div>
         <div data-test-course-publicationcheck-actions>
-          {{#if this.hasNoIssues}}
-            <button type="button" {{on "click" this.publish}} data-test-publish>
-              {{t "general.publishCourse"}}
-            </button>
-          {{else if this.hasMissingRequirements}}
+          {{#if this.hasMissingRequirements}}
             <button
               type="button"
               disabled
@@ -160,16 +153,16 @@ export default class CoursePublicationCheckComponent extends Component {
             >
               {{t "general.publishCourse"}}
             </button>
-          {{else}}
-            <button
-              type="button"
-              {{on "click" this.publish}}
-              data-test-publish-without-optional-items
-            >
+          {{else if this.hasMissingItems}}
+            <button type="button" {{on "click" this.publish}} data-test-publish-with-missing-items>
               {{t
                 "general.publishCourseWithMissingItems"
                 missingItemCount=@course.allPublicationIssuesLength
               }}
+            </button>
+          {{else}}
+            <button type="button" {{on "click" this.publish}} data-test-publish>
+              {{t "general.publishCourse"}}
             </button>
           {{/if}}
         </div>

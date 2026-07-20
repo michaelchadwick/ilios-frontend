@@ -62,15 +62,12 @@ export default class SessionPublicationCheckComponent extends Component {
     return objectivesWithoutParents.length > 0;
   }
 
-  get hasNoIssues() {
-    return (
-      this.args.session.requiredPublicationIssues.length === 0 &&
-      this.args.session.allPublicationIssuesLength === 0
-    );
-  }
-
   get hasMissingRequirements() {
     return this.args.session.requiredPublicationIssues.length !== 0;
+  }
+
+  get hasMissingItems() {
+    return this.args.session.allPublicationIssuesLength !== 0;
   }
 
   @action
@@ -173,11 +170,7 @@ export default class SessionPublicationCheckComponent extends Component {
           </table>
         </div>
         <div data-test-session-publicationcheck-actions>
-          {{#if this.hasNoIssues}}
-            <button type="button" {{on "click" this.publish}} data-test-publish>
-              {{t "general.publishSession"}}
-            </button>
-          {{else if this.hasMissingRequirements}}
+          {{#if this.hasMissingRequirements}}
             <button
               type="button"
               disabled
@@ -186,12 +179,16 @@ export default class SessionPublicationCheckComponent extends Component {
             >
               {{t "general.publishSession"}}
             </button>
-          {{else}}
+          {{else if this.hasMissingItems}}
             <button type="button" {{on "click" this.publish}} data-test-publish-with-missing-items>
               {{t
                 "general.publishSessionWithMissingItems"
                 missingItemCount=@session.allPublicationIssuesLength
               }}
+            </button>
+          {{else}}
+            <button type="button" {{on "click" this.publish}} data-test-publish>
+              {{t "general.publishSession"}}
             </button>
           {{/if}}
         </div>
