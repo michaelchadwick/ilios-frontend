@@ -1,9 +1,12 @@
 import Component from '@glimmer/component';
+import { service } from '@ember/service';
 import { TrackedAsyncData } from 'ember-async-data';
 import { cached } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import Overview from 'ilios-common/components/session/overview';
 import { LinkTo } from '@ember/routing';
 import { array, hash } from '@ember/helper';
+import { on } from '@ember/modifier';
 import FaIcon from '@fortawesome/ember-fontawesome/components/fa-icon';
 import t from 'ember-intl/helpers/t';
 import scrollIntoView from 'ilios-common/modifiers/scroll-into-view';
@@ -11,6 +14,10 @@ import hasManyLength from 'ilios-common/helpers/has-many-length';
 import { faArrowRotateLeft, faLinkSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default class SessionPublicationCheckComponent extends Component {
+  @service router;
+  @service intl;
+  @service flashMessages;
+
   @cached
   get courseData() {
     return new TrackedAsyncData(this.args.session.course);
@@ -55,6 +62,14 @@ export default class SessionPublicationCheckComponent extends Component {
     return objectivesWithoutParents.length > 0;
   }
 
+  @action
+  async publish() {
+    this.args.session.set('publishedAsTbd', false);
+    this.args.session.set('published', true);
+    await this.args.session.save();
+    this.router.transitionTo('session', this.args.session);
+    this.flashMessages.success(this.intl.t('general.publishedSuccessfully'));
+  }
   <template>
     <div class="session-publicationcheck" data-test-session-publicationcheck>
       <Overview @session={{@session}} @hideCheckLink={{true}} @sessionTypes={{this.sessionTypes}} />
@@ -141,6 +156,14 @@ export default class SessionPublicationCheckComponent extends Component {
               </tr>
             </tbody>
           </table>
+        </div>
+        <div data-test-session-publicationcheck-actions>
+          <button type="button" {{on "click" this.publish}} data-test-publish-with-missing-items>
+            {{t
+              "general.publishSessionWithMissingItems"
+              missingItemCount=@session.allPublicationIssuesLength
+            }}
+          </button>
         </div>
       </div>
     </div>

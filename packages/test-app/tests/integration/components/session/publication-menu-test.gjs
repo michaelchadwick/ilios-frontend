@@ -86,7 +86,6 @@ module('Integration | Component | session/publication-menu', function (hooks) {
     assert.ok(component.menuOpen);
     assert.notOk(component.hasPublishAsIs);
     assert.notOk(component.hasPublish);
-    assert.ok(component.hasReview);
     assert.ok(component.hasTbd);
     assert.notOk(component.hasUnPublish);
   });
@@ -103,7 +102,6 @@ module('Integration | Component | session/publication-menu', function (hooks) {
     assert.ok(component.menuOpen);
     assert.notOk(component.hasPublishAsIs);
     assert.notOk(component.hasPublish);
-    assert.ok(component.hasReview);
     assert.notOk(component.hasTbd);
     assert.ok(component.hasUnPublish);
   });
@@ -120,7 +118,6 @@ module('Integration | Component | session/publication-menu', function (hooks) {
     assert.ok(component.menuOpen);
     assert.notOk(component.hasPublishAsIs);
     assert.notOk(component.hasPublish);
-    assert.ok(component.hasReview);
     assert.ok(component.hasTbd);
     assert.ok(component.hasUnPublish);
   });
@@ -158,24 +155,19 @@ module('Integration | Component | session/publication-menu', function (hooks) {
     this.set('session', sessionModel);
     await render(<template><PublicationMenu @session={{this.session}} /></template>);
     await component.toggle.click();
-    assert.ok(component.menuOpen);
-    assert.ok(component.hasPublishAsIs);
-    assert.notOk(component.hasPublish);
-    assert.ok(component.hasReview);
-    assert.ok(component.hasTbd);
-    assert.notOk(component.hasUnPublish);
 
-    assert.strictEqual(component.selectedMenuItem, 'Review 2 Missing Items');
+    assert.ok(component.menuOpen, 'menu is open');
+    assert.ok(component.hasPublishAsIs, 'menu has publish as-is');
+    assert.notOk(component.hasPublish, 'menu does not have publish');
+    assert.ok(component.hasTbd, 'menu has scheduled option');
+    assert.notOk(component.hasUnPublish, 'menu does not have unpublish');
+
+    assert.strictEqual(component.selectedMenuItem, 'Mark as Scheduled');
     await a11yAudit(this.element);
     assert.ok(true, 'no a11y errors found!');
 
     await component.menu.up();
     assert.strictEqual(component.selectedMenuItem, 'Publish As-is');
-    await a11yAudit(this.element);
-    assert.ok(true, 'no a11y errors found!');
-
-    await component.menu.up();
-    assert.strictEqual(component.selectedMenuItem, 'Mark as Scheduled');
     await a11yAudit(this.element);
     assert.ok(true, 'no a11y errors found!');
   });
@@ -193,21 +185,15 @@ module('Integration | Component | session/publication-menu', function (hooks) {
     assert.ok(component.menuOpen);
     assert.notOk(component.hasPublishAsIs);
     assert.notOk(component.hasPublish);
-    assert.ok(component.hasReview);
     assert.ok(component.hasTbd);
     assert.ok(component.hasUnPublish);
 
-    assert.strictEqual(component.selectedMenuItem, 'Review 2 Missing Items');
+    assert.strictEqual(component.selectedMenuItem, 'Mark as Scheduled');
     await a11yAudit(this.element);
     assert.ok(true, 'no a11y errors found!');
 
     await component.menu.up();
     assert.strictEqual(component.selectedMenuItem, 'UnPublish Session');
-    await a11yAudit(this.element);
-    assert.ok(true, 'no a11y errors found!');
-
-    await component.menu.up();
-    assert.strictEqual(component.selectedMenuItem, 'Mark as Scheduled');
     await a11yAudit(this.element);
     assert.ok(true, 'no a11y errors found!');
   });

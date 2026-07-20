@@ -290,6 +290,7 @@ general:
   publishAsIs: Publish As-is
   publishCourse: Publish Course
   publishCourseWithMissingItems: Publish Course, with {missingItemCount, plural, =1 {1 item missing} other {# items missing}}
+  publishSessionWithMissingItems: Publish Session, with {missingItemCount, plural, =1 {1 item missing} other {# items missing}}
   published: Published
   publishedSessions: Published Sessions
   publishedSuccessfully: Published successfully
@@ -299,7 +300,6 @@ general:
   results: Results
   resultsCount: "{count, plural, =1 {1 result} other {# results}}"
   returnToPreviousPage: Return to Previous Page
-  reviewMissingItems: "Review {count} Missing Items"
   saturday: Saturday
   save: Save
   savedSuccessfully: saved successfully

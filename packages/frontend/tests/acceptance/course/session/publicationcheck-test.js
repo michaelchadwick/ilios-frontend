@@ -30,10 +30,10 @@ module('Acceptance | Session - Publication Check', function (hooks) {
     await page.visit({ courseId: this.course.id, sessionId: session.id });
     await takeScreenshot(assert);
     assert.strictEqual(currentRouteName(), 'session.publication-check');
-    assert.strictEqual(page.sessionTitle, 'session 0');
-    assert.strictEqual(page.offerings, 'Yes (1)');
-    assert.strictEqual(page.terms, 'Yes (1)');
-    assert.strictEqual(page.objectives, 'Yes (1)');
+    assert.strictEqual(page.publicationcheck.sessionTitle, 'session 0');
+    assert.strictEqual(page.publicationcheck.offerings, 'Yes (1)');
+    assert.strictEqual(page.publicationcheck.terms, 'Yes (1)');
+    assert.strictEqual(page.publicationcheck.objectives, 'Yes (1)');
   });
 
   test('empty session count', async function (assert) {
@@ -41,10 +41,11 @@ module('Acceptance | Session - Publication Check', function (hooks) {
       course: this.course,
     });
     await page.visit({ courseId: this.course.id, sessionId: session.id });
-    assert.strictEqual(page.sessionTitle, 'session 0');
-    assert.strictEqual(page.offerings, 'No');
-    assert.strictEqual(page.terms, 'No');
-    assert.strictEqual(page.objectives, 'No');
+    await takeScreenshot(assert);
+    assert.strictEqual(page.publicationcheck.sessionTitle, 'session 0');
+    assert.strictEqual(page.publicationcheck.offerings, 'No');
+    assert.strictEqual(page.publicationcheck.terms, 'No');
+    assert.strictEqual(page.publicationcheck.objectives, 'No');
   });
 
   test('unlink icon transitions properly', async function (assert) {
@@ -54,7 +55,7 @@ module('Acceptance | Session - Publication Check', function (hooks) {
     });
     await this.server.create('session-objective', { session });
     await page.visit({ courseId: this.course.id, sessionId: session.id });
-    await page.unlink.click();
+    await page.publicationcheck.unlink.click();
     assert.ok(currentURL().startsWith('/courses/1/sessions/1'));
     assert.ok(currentURL().includes('sessionObjectiveDetails=true'));
   });
