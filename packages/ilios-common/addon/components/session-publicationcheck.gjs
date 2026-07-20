@@ -67,8 +67,8 @@ export default class SessionPublicationCheckComponent extends Component {
     this.args.session.set('publishedAsTbd', false);
     this.args.session.set('published', true);
     await this.args.session.save();
-    this.router.transitionTo('session', this.args.session);
     this.flashMessages.success(this.intl.t('general.publishedSuccessfully'));
+    this.router.transitionTo('session', this.args.session);
   }
   <template>
     <div class="session-publicationcheck" data-test-session-publicationcheck>
