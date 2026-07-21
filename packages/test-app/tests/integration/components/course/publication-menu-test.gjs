@@ -213,7 +213,7 @@ module('Integration | Component | course/publication-menu', function (hooks) {
     await render(<template><PublicationMenu @course={{this.course}} /></template>);
     await component.toggle.click();
     assert.ok(component.menuOpen);
-    assert.ok(component.hasPublish);
+    assert.notOk(component.hasPublish);
     assert.ok(component.hasTbd);
     assert.ok(component.hasUnPublish);
 
