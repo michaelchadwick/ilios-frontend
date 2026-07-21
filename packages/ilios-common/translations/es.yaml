@@ -99,6 +99,7 @@ general:
   courseVisualizationsTermGraphNoData: "El término de vocabulario {term} no se ha vinculado a ninguna sesión de este curso."
   courseVisualizationsVocabularyGraphNoData: "No se han vinculado términos del vocabulario {vocabulary} a ninguna sesión de este curso."
   currentlySearchingPrompt: buscando...
+  dashboard: Tablero
   dashboardNavigation: Panel de navegación
   date: Fecha
   dateTime: Fecha/Hora

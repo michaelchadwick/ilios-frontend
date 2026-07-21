@@ -121,7 +121,6 @@ general:
   curriculumInventoryReportRolloverSuccess: Roulement achevée avec succès
   curriculumInventoryReports: "Rapports d'inventaire des programmes d'études"
   curriculumInventoryReportsTitlePlaceholder: Ajoutez une titre par ce rapport
-  dashboard: Tableau de Bord
   deactivate: Désactiver
   defaultInstructors: Instructeurs par Défaut
   defaultLocation: Localisation par Défaut

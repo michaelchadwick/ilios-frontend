@@ -99,6 +99,7 @@ general:
   courseVisualizationsTermGraphNoData: "The vocabulary term {term} has not been linked to any sessions in this course."
   courseVisualizationsVocabularyGraphNoData: "No {vocabulary} vocabulary terms have been linked to any sessions in this course."
   currentlySearchingPrompt: searching...
+  dashboard: Dashboard
   dashboardNavigation: Dashboard navigation
   date: Date
   dateTime: Date/Time

@@ -121,7 +121,6 @@ general:
   curriculumInventoryReportRolloverSuccess: Inventario Copiado con Éxito
   curriculumInventoryReports: Informes de Inventario de Plan de Estudios
   curriculumInventoryReportsTitlePlaceholder: Entre en un titulo para este informe
-  dashboard: Tablero
   deactivate: Desactivar
   defaultInstructors: Instructores Predeterminados
   defaultLocation: Ubicación Predeterminada
