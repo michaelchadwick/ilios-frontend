@@ -26,7 +26,7 @@ import {
 
 export default class ProgramYearObjectiveListComponent extends Component {
   @service iliosConfig;
-  @service session;
+  @service fetch;
 
   @tracked isSorting = false;
 
@@ -87,27 +87,10 @@ export default class ProgramYearObjectiveListComponent extends Component {
     });
   }
 
-  get authHeaders() {
-    const headers = {};
-    if (this.session?.isAuthenticated) {
-      const { jwt } = this.session.data.authenticated;
-      if (jwt) {
-        headers['X-JWT-Authorization'] = `Token ${jwt}`;
-      }
-    }
-
-    return new Headers(headers);
-  }
-
   downloadReport = task({ drop: true }, async () => {
-    const apiPath = '/' + this.iliosConfig.apiNameSpace;
     const resourcePath = `/programyears/${this.args.programYear.id}/downloadobjectivesmapping`;
-    const host = this.iliosConfig.apiHost ?? `${window.location.protocol}//${window.location.host}`;
-    const url = host + apiPath + resourcePath;
+    const response = await this.fetch.getFromApi(resourcePath);
     const { default: saveAs } = await import('file-saver');
-    const response = await fetch(url, {
-      headers: this.authHeaders,
-    });
     const blob = await response.blob();
     saveAs(blob, 'report.csv');
   });
