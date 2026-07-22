@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
-import jwtDecode from '../utils/jwt-decode';
+import { jwtDecode } from 'ilios-common/utils/jwt-utils';
 import { set } from '@ember/object';
 
 export default class ApplicationRoute extends Route {

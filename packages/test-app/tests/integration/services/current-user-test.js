@@ -294,6 +294,33 @@ module('Integration | Service | Current User', function (hooks) {
     assert.notOk(isTeachingSession2);
   });
 
+  test.each(
+    'isLtiUser',
+    [
+      [undefined, false],
+      [null, false],
+      [{ not: 'an array or string' }, false],
+      [[], false],
+      [['foo', 'bar'], false],
+      ['lti-dashboard', true],
+      [['lti-dashboard'], true],
+      ['lti-course-manager', true],
+      [['lti-course-manager'], true],
+      [['lti-dashboard', 'lti-course-manager'], true],
+      [['lti-dashboard', 'lti-course-manager', 'foo'], true],
+      [['lti-dashboard', 'foo'], true],
+      [['lti-course-manager', 'foo'], true],
+    ],
+    async function (assert, [aud, expected]) {
+      await invalidateSession();
+      await authenticateSession({
+        jwt: jwtEncode({ user_id: 100, aud }),
+      });
+      const currentUser = this.owner.lookup('service:current-user');
+      assert.strictEqual(currentUser.isLtiUser, expected);
+    },
+  );
+
   skip('requireNonLearner', function (/* assert */) {
     // TODO: implement.
   });

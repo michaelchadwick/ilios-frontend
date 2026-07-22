@@ -44,6 +44,15 @@ export default class ApplicationController extends Controller {
     return '';
   }
 
+  get useFullLayout() {
+    // user authorized for LTI usage do not get to see the full layout.
+    return !this.currentUser.isLtiUser;
+  }
+
+  get hasNavigation() {
+    return this.currentUser.performsNonLearnerFunction && this.useFullLayout;
+  }
+
   @action
   clearErrors() {
     this.errors = [];
