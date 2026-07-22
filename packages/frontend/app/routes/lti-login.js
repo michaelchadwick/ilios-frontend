@@ -6,7 +6,7 @@ export default class LtiLoginRoute extends Route {
   @service serverVariables;
   @service session;
   @service router;
-  @service iliosConfig;
+  @service fetch;
 
   async model({ token }) {
     const decodedJwt = jwtDecode(token);
@@ -19,9 +19,7 @@ export default class LtiLoginRoute extends Route {
   }
 
   async getNewToken(ltiToken) {
-    const apiHost = this.iliosConfig.apiHost;
-    const url = `${apiHost}/auth/token`;
-    const response = await fetch(url, {
+    const response = await this.fetch.fetchFromApiHost('/auth/token', {
       headers: {
         'X-JWT-Authorization': `Token ${ltiToken}`,
       },

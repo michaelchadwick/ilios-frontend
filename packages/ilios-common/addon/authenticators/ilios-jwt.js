@@ -5,7 +5,7 @@ import { cancel, later } from '@ember/runloop';
 import { DateTime } from 'luxon';
 
 export default class IliosJWT extends Base {
-  @service iliosConfig;
+  @service fetch;
   #tokenExpirationTimeout = null;
 
   async authenticate(credentials, headers) {
@@ -62,8 +62,7 @@ export default class IliosJWT extends Base {
   }
 
   async loginWithCredentials(data, loginHeaders) {
-    const host = this.iliosConfig.apiHost ? this.iliosConfig.apiHost : '';
-    const response = await fetch(`${host}/auth/login`, {
+    const response = await this.fetch.fetchFromApiHost('/auth/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

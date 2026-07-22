@@ -4,8 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { task } from 'ember-concurrency';
 
 export default class LoginController extends Controller {
-  @service iliosConfig;
   @service session;
+  @service fetch;
   @tracked jwt = null;
   @tracked error = null;
 
@@ -13,9 +13,7 @@ export default class LoginController extends Controller {
     this.error = null;
 
     if (this.jwt) {
-      const apiHost = this.iliosConfig.get('apiHost');
-      const url = `${apiHost}/auth/token`;
-      const response = await fetch(url, {
+      const response = await this.fetch.fetchFromApiHost('/auth/token', {
         headers: {
           'X-JWT-Authorization': `Token ${this.jwt}`,
         },
