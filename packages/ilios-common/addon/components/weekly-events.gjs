@@ -8,6 +8,7 @@ import WeekGlance from 'ilios-common/components/week-glance';
 import { not } from 'ember-truth-helpers';
 import includes from 'ilios-common/helpers/includes';
 import { fn } from '@ember/helper';
+import { pageTitle } from 'ember-page-title';
 import { faBackward, faForward } from '@fortawesome/free-solid-svg-icons';
 
 export default class WeeklyEventsComponent extends Component {
@@ -34,6 +35,8 @@ export default class WeeklyEventsComponent extends Component {
     this.args.setYear(parseInt(this.args.year, 10) - 1);
   }
   <template>
+    {{pageTitle (t "general.dashboard") " | " (t "general.allWeeks") prepend=false}}
+
     <div class="weekly-events main-section" data-test-weekly-events>
       <div class="year" data-test-top-nav>
         <h2>
