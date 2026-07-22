@@ -3,7 +3,6 @@ import { service } from '@ember/service';
 
 export default class LearnerGroupRoute extends Route {
   @service currentUser;
-  @service session;
   @service dataLoader;
 
   queryParams = {

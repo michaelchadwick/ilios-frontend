@@ -5,7 +5,6 @@ import { loadQuillEditor } from 'ilios-common/utils/load-quill-editor';
 export default class ProgramYearRoute extends Route {
   @service currentUser;
   @service permissionChecker;
-  @service session;
   @service store;
 
   canUpdate = false;

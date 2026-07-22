@@ -7,7 +7,6 @@ export default class AdminDashboardRoute extends Route {
   @service permissionChecker;
   @service currentUser;
   @service router;
-  @service session;
 
   beforeModel(transition) {
     if (!this.currentUser.requireNonLearner(transition)) {

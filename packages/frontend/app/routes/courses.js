@@ -6,7 +6,6 @@ export default class CoursesRoute extends Route {
   @service currentUser;
   @service store;
   @service dataLoader;
-  @service session;
   @service router;
 
   queryParams = {

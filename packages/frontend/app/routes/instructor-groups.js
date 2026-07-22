@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 export default class InstructorGroupsRoute extends Route {
   @service currentUser;
   @service store;
-  @service session;
 
   queryParams = {
     titleFilter: {

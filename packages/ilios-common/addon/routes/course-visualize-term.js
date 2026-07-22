@@ -3,10 +3,8 @@ import Route from '@ember/routing/route';
 import { all, map } from 'rsvp';
 
 export default class CourseVisualizeTermRoute extends Route {
-  @service session;
   @service store;
   @service currentUser;
-  @service router;
 
   async model(params) {
     const course = await this.store.findRecord('course', params.course_id);

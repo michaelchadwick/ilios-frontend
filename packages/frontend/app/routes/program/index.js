@@ -5,7 +5,6 @@ import { all } from 'rsvp';
 export default class ProgramIndexRoute extends Route {
   @service currentUser;
   @service permissionChecker;
-  @service session;
 
   canCreate = false;
 

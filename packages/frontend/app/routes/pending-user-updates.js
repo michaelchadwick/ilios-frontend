@@ -6,7 +6,6 @@ export default class PendingUserUpdatesRoute extends Route {
   @service currentUser;
   @service permissionChecker;
   @service store;
-  @service session;
 
   queryParams = {
     filter: {

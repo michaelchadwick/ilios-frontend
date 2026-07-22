@@ -4,8 +4,6 @@ import { DateTime } from 'luxon';
 
 export default class ReportsCurriculumRoute extends Route {
   @service currentUser;
-  @service router;
-  @service session;
   @service store;
   @service graphql;
 

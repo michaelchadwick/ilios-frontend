@@ -4,10 +4,8 @@ import { all, map } from 'rsvp';
 
 export default class CourseVisualizeObjectivesRoute extends Route {
   @service store;
-  @service session;
   @service dataLoader;
   @service currentUser;
-  @service router;
 
   async model(params) {
     return this.dataLoader.loadCourse(params.course_id);

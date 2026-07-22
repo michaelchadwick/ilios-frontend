@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 export default class CurriculumInventoryReportIndexRoute extends Route {
   @service currentUser;
   @service permissionChecker;
-  @service session;
   canUpdate = false;
 
   beforeModel(transition) {

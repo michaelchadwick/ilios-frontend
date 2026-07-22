@@ -5,7 +5,6 @@ export default class UserRoute extends Route {
   @service store;
   @service currentUser;
   @service iliosConfig;
-  @service session;
   @service dataLoader;
 
   beforeModel(transition) {

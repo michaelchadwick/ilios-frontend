@@ -4,9 +4,7 @@ import { findById } from 'ilios-common/utils/array-helpers';
 
 export default class SessionRoute extends Route {
   @service dataLoader;
-  @service session;
   @service currentUser;
-  @service router;
 
   async model(params) {
     const course = this.modelFor('course');

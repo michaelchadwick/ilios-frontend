@@ -7,7 +7,6 @@ import Event from 'ilios-common/classes/event';
 export default class UserEvents extends EventsBase {
   @service store;
   @service currentUser;
-  @service session;
   @service fetch;
   @service iliosConfig;
 

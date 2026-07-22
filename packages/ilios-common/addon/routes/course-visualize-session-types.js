@@ -3,11 +3,9 @@ import Route from '@ember/routing/route';
 import { map } from 'rsvp';
 
 export default class CourseVisualizeSessionTypesRoute extends Route {
-  @service session;
   @service store;
   @service dataLoader;
   @service currentUser;
-  @service router;
 
   async model(params) {
     return this.dataLoader.loadCourse(params.course_id);

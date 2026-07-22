@@ -3,7 +3,6 @@ import Route from '@ember/routing/route';
 
 export default class VerificationPreviewRoute extends Route {
   @service currentUser;
-  @service session;
   @service store;
 
   beforeModel(transition) {
