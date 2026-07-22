@@ -4,7 +4,6 @@ import { service } from '@ember/service';
 export default class CurriculumInventorySequenceBlockRoute extends Route {
   @service currentUser;
   @service permissionChecker;
-  @service session;
   @service store;
 
   canUpdate = false;

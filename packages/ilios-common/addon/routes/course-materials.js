@@ -4,7 +4,6 @@ import { all } from 'rsvp';
 import { mapBy } from 'ilios-common/utils/array-helpers';
 
 export default class CourseMaterialsRoute extends Route {
-  @service session;
   @service dataLoader;
   @service currentUser;
   @service router;

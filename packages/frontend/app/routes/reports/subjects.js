@@ -3,8 +3,6 @@ import { service } from '@ember/service';
 
 export default class ReportsSubjectsRoute extends Route {
   @service currentUser;
-  @service router;
-  @service session;
 
   queryParams = {
     sortReportsBy: { replace: true },

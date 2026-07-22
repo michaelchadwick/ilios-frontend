@@ -3,7 +3,6 @@ import { service } from '@ember/service';
 
 export default class ProgramsRoute extends Route {
   @service currentUser;
-  @service session;
   @service store;
 
   queryParams = {

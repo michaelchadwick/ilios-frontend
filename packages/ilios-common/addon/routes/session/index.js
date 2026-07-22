@@ -4,9 +4,7 @@ import Route from '@ember/routing/route';
 export default class SessionIndexRoute extends Route {
   @service permissionChecker;
   @service store;
-  @service session;
   @service currentUser;
-  @service router;
 
   canUpdate = false;
 

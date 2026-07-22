@@ -3,9 +3,7 @@ import { service } from '@ember/service';
 
 export default class ReportsSubjectRoute extends Route {
   @service currentUser;
-  @service router;
   @service reporting;
-  @service session;
   @service store;
 
   beforeModel(transition) {

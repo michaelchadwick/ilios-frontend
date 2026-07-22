@@ -5,9 +5,7 @@ import { loadQuillEditor } from 'ilios-common/utils/load-quill-editor';
 export default class CourseRoute extends Route {
   @service permissionChecker;
   @service dataLoader;
-  @service session;
   @service store;
-  @service router;
   @service currentUser;
 
   queryParams = {

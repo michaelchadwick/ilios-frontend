@@ -7,8 +7,6 @@ export default class CourseIndexRoute extends Route {
   @service preserveScroll;
   @service store;
   @service dataLoader;
-  @service session;
-  @service router;
   @service currentUser;
 
   canCreateSession = false;

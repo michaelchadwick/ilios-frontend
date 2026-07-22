@@ -5,7 +5,6 @@ import { all } from 'rsvp';
 export default class ProgramYearVisualizeObjectivesRoute extends Route {
   @service currentUser;
   @service store;
-  @service session;
 
   beforeModel(transition) {
     this.currentUser.requireNonLearner(transition);

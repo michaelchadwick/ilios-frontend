@@ -5,10 +5,8 @@ import { mapBy } from 'ilios-common/utils/array-helpers';
 
 export default class CourseVisualizationsRoute extends Route {
   @service store;
-  @service session;
   @service dataLoader;
   @service currentUser;
-  @service router;
 
   async model(params) {
     return this.dataLoader.loadCourse(params.course_id);

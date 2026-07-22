@@ -4,9 +4,8 @@ import { service } from '@ember/service';
 export default class SearchRoute extends Route {
   @service currentUser;
   @service iliosConfig;
-  @service router;
-  @service session;
   @service store;
+  @service router;
 
   async beforeModel(transition) {
     const searchEnabled = await this.iliosConfig.getSearchEnabled();

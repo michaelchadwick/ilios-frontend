@@ -6,7 +6,6 @@ export default class UsersRoute extends Route {
   @service currentUser;
   @service store;
   @service permissionChecker;
-  @service session;
   @service dataLoader;
 
   queryParams = {

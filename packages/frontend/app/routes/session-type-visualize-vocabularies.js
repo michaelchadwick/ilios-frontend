@@ -4,7 +4,6 @@ import Route from '@ember/routing/route';
 export default class SessionTypeVisualizeVocabulariesRoute extends Route {
   @service currentUser;
   @service store;
-  @service session;
 
   _dataLoadingPromise = null;
 

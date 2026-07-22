@@ -4,8 +4,6 @@ import Route from '@ember/routing/route';
 export default class PrintCourseRoute extends Route {
   @service currentUser;
   @service dataLoader;
-  @service session;
-  @service router;
 
   canViewUnpublished = false;
 
